@@ -1,0 +1,4 @@
+﻿test message,option1,3
+,option2,0
+,option3,3
+new message

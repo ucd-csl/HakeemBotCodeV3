@@ -1,0 +1,18 @@
+{
+    "name": "nethope",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "appId": "a59e7670-6105-46bb-a00e-9c81cfe3b913",
+            "appPassword": "fmkXQVK8mxxoZRB2353~#+_",
+            "endpoint": "http://localhost:3979/api/messages",
+            "id": "06cf9f80-d6a8-11e8-89d1-bb959e2740f2",
+            "name": "http://localhost:3979/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "overrides": null,
+    "path": "C:\\Users\\pel\\hugh\\NetHope\\NetHope\\nethope.bot"
+}

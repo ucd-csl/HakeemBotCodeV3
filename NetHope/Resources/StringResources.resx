@@ -1,0 +1,1718 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="en_Greeting_1" xml:space="preserve">
+    <value>Hi! I'm Hakeem, your virtual Learning Companion. It will be exciting to help you discover and learn new things.</value>
+  </data>
+  <data name="en_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="en_Ok" xml:space="preserve">
+    <value>OK!</value>
+  </data>
+  <data name="en_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ar_Greeting_1" xml:space="preserve">
+    <value>مرحبا! أنا حكيم ، رفيق التعليم الافتراضي الخاص بك. سيكون من المثير أن نساعدك في اكتشاف وتعلم أشياء جديدة.</value>
+  </data>
+  <data name="en_Language_Selected" xml:space="preserve">
+    <value>Great! I’ll use English.</value>
+  </data>
+  <data name="en_Language_Changed" xml:space="preserve">
+    <value>Language Preferences updated!</value>
+  </data>
+  <data name="ar_About" xml:space="preserve">
+    <value>عن</value>
+  </data>
+  <data name="ar_AboutHakeem" xml:space="preserve">
+    <value>حول حكيم</value>
+  </data>
+  <data name="ar_AccreditationUpdated" xml:space="preserve">
+    <value>{0} تم تعديل خيارات الاعتماد ل</value>
+  </data>
+  <data name="ar_Accredited" xml:space="preserve">
+    <value>معتمدة</value>
+  </data>
+  <data name="ar_AccredPref1" xml:space="preserve">
+    <value>{0} تفيضلك لإعتماد حاليا</value>
+  </data>
+  <data name="ar_AccredPref2" xml:space="preserve">
+    <value>يرجى الاختيار اذا كنت ترغب بدراسة دورات معتمدة أو غير معتمدة</value>
+  </data>
+  <data name="ar_AccredPrefFemale" xml:space="preserve">
+    <value>يرجى الاختيار اذا كنت ترغبي بدراسة دورات معتمدة أو غير معتمدة</value>
+  </data>
+  <data name="ar_AccredPrefMale" xml:space="preserve">
+    <value>يرجى الاختيار اذا كنت ترغب بدراسة دورات معتمدة أو غير معتمدة</value>
+  </data>
+  <data name="ar_AltGoBack" xml:space="preserve">
+    <value>بدلاً من ذلك ، حدد "الرجوع" للعودة إلى الرسالة السابقة</value>
+  </data>
+  <data name="ar_Arabic" xml:space="preserve">
+    <value>عربي</value>
+  </data>
+  <data name="ar_AskTakeCourse" xml:space="preserve">
+    <value>هل ترغب في التسجيل في هذه الدورة ؟</value>
+  </data>
+  <data name="ar_AskTakeCourseFemale" xml:space="preserve">
+    <value>هل ترغبي في التسجيل في هذه الدورة ؟</value>
+  </data>
+  <data name="ar_AskTakeCourseMale" xml:space="preserve">
+    <value>هل ترغب في التسجيل في هذه الدورة ؟</value>
+  </data>
+  <data name="ar_AvailableCourses" xml:space="preserve">
+    <value>الدورات المتاحة</value>
+  </data>
+  <data name="ar_BeginLearning" xml:space="preserve">
+    <value>إبدأ التعلم</value>
+  </data>
+  <data name="ar_Both" xml:space="preserve">
+    <value>كلاهما</value>
+  </data>
+  <data name="ar_ChangeInterests" xml:space="preserve">
+    <value>يرجى الضغط على الرابط لتغيير اهتماماتك المفضلة</value>
+  </data>
+  <data name="ar_ChangePreferences" xml:space="preserve">
+    <value>في حال أردت أن تغير تفضيلات الدورة يمكنك اختيار احد الخيارات أدناه، أو قم باختيار "المتابعة" للبدء بالتعلّم</value>
+  </data>
+  <data name="ar_ChangePreferencesFemale" xml:space="preserve">
+    <value>في حال أردتي أن تغير تفضيلات الدورة يمكنك اختيار احد الخيارات أدناه، أو قم باختيار "المتابعة" للبدء بالتعلّم</value>
+  </data>
+  <data name="ar_ChangePreferencesMale" xml:space="preserve">
+    <value>في حال أردت أن تغير تفضيلات الدورة يمكنك اختيار احد الخيارات أدناه، أو قم باختيار "المتابعة" للبدء بالتعلّم</value>
+  </data>
+  <data name="ar_CheckCourseStarted" xml:space="preserve">
+    <value>هل بدأت بهذا البرنامج؟</value>
+  </data>
+  <data name="ar_CheckUp" xml:space="preserve">
+    <value>أرى أنك مهتم بـ  {0} منذ حوالي أسبوع.</value>
+  </data>
+  <data name="ar_Clarify_input" xml:space="preserve">
+    <value>ما الذي تريد معرفته عن {inputTerm}؟</value>
+  </data>
+  <data name="ar_CommandList1" xml:space="preserve">
+    <value>فيما يلي قائمة بالأوامر المتوفرة لك</value>
+  </data>
+  <data name="ar_CommandList2" xml:space="preserve">
+    <value>العناوين للاطلاع على المواضيع المتاحة</value>
+  </data>
+  <data name="ar_CommandList3" xml:space="preserve">
+    <value>تفضيلاتي  لتقوم بتعديل تفضيلاتك المختارة</value>
+  </data>
+  <data name="ar_CommandList4" xml:space="preserve">
+    <value>ول حكيم لتعرف المزيد من المعلومات عني والقيمة التي أقدمها</value>
+  </data>
+  <data name="ar_CommandList5" xml:space="preserve">
+    <value>رجوع للرجوع إلى الرسالة السابقة</value>
+  </data>
+  <data name="ar_CommandListDefault" xml:space="preserve">
+    <value>إبدأ من جديد  في أي وقت تود أن تبدأ المحادثة من جديد</value>
+  </data>
+  <data name="ar_CommandListFemale" xml:space="preserve">
+    <value>إبدأ من جديد  في أي وقت تودين أن تبدأ المحادثة من جديد</value>
+  </data>
+  <data name="ar_CommandListMale" xml:space="preserve">
+    <value>إبدأ من جديد  في أي وقت تود أن تبدأ المحادثة من جديد</value>
+  </data>
+  <data name="ar_CommandReminder2" xml:space="preserve">
+    <value>أدخل 'حول' إذا كنت ترغب في معرفة المزيد عني</value>
+  </data>
+  <data name="ar_CommandReminder3" xml:space="preserve">
+    <value>أدخل 'الأوامر' لعرض جميع الأوامر الخاصة بي. يمكنك أيضًا كتابة 'أوامر' في أي وقت لمشاهدتها.</value>
+  </data>
+  <data name="ar_CommandReminder4" xml:space="preserve">
+    <value>أدخل 'التفضيلات' لعرض التفضيلات التي قمت بتخزينها لك.</value>
+  </data>
+  <data name="ar_CommandReminder5" xml:space="preserve">
+    <value>أدخل 'متابعة' إذا كنت ترغب في البدء في التعلم معي!</value>
+  </data>
+  <data name="ar_CommandReminderDefault" xml:space="preserve">
+    <value>قبل أن نبدأ، تعرف على ما يمكنني القيام به. يمكنك أيضاً أن تكتب \"أوامر\" في أي وقت لعرض الأوامر الأخرى التي يمكنك استخدامها</value>
+  </data>
+  <data name="ar_CommandReminderFemale" xml:space="preserve">
+    <value>قبل أن نبدأ، تعرفي على ما يمكنني القيام به. يمكنك أيضاً أن تكتب \"أوامر\" في أي وقت لعرض الأوامر الأخرى التي يمكنك استخدامها</value>
+  </data>
+  <data name="ar_CommandReminderMale" xml:space="preserve">
+    <value>قبل أن نبدأ، تعرف على ما يمكنني القيام به. يمكنك أيضاً أن تكتب \"أوامر\" في أي وقت لعرض الأوامر الأخرى التي يمكنك استخدامها</value>
+  </data>
+  <data name="ar_Commands" xml:space="preserve">
+    <value>أوامر</value>
+  </data>
+  <data name="ar_ConfirmDelete" xml:space="preserve">
+    <value>يرجى تأكيد رغبتك بحذف جميع البيانات</value>
+  </data>
+  <data name="ar_Continue" xml:space="preserve">
+    <value>استمرار</value>
+  </data>
+  <data name="ar_CourseDelivery" xml:space="preserve">
+    <value>طبيعة السرعة المفضلة</value>
+  </data>
+  <data name="ar_CourseDeliveryUpdated" xml:space="preserve">
+    <value>{0} تم تعديل خيارات طبيعة حضور الدوارت ل</value>
+  </data>
+  <data name="ar_CourseDescription" xml:space="preserve">
+    <value>وصف الدورة</value>
+  </data>
+  <data name="ar_CourseLangPref1" xml:space="preserve">
+    <value>{0} تم تعيين تفضيلات اللغة ل</value>
+  </data>
+  <data name="ar_CourseLangPref2" xml:space="preserve">
+    <value>يرجى تحديد تفضيلات اللغة الخاصة بك</value>
+  </data>
+  <data name="ar_CourseLanguageConfirm" xml:space="preserve">
+    <value>{0} ممتاز ، سأقدم لك الدورات باللغة</value>
+  </data>
+  <data name="ar_CourseLink" xml:space="preserve">
+    <value>{0} اضغط على الرابط التالي ليتم تحويلك للموقع المقدم للدورة</value>
+  </data>
+  <data name="ar_CourseNotStarted" xml:space="preserve">
+    <value>لا ، لم أبدأ</value>
+  </data>
+  <data name="ar_Courses" xml:space="preserve">
+    <value>الدورات</value>
+  </data>
+  <data name="ar_CourseStarted" xml:space="preserve">
+    <value>نعم ، بدأت</value>
+  </data>
+  <data name="ar_CourseTrailer" xml:space="preserve">
+    <value>يمكنك العثور على مقطورة للدورة هنا</value>
+  </data>
+  <data name="ar_DataDeleted" xml:space="preserve">
+    <value>تم إلغاء كل البياناتك الشخصية من السجلات</value>
+  </data>
+  <data name="ar_DataKept" xml:space="preserve">
+    <value>حسنًا ، لن أحذف أي شيء وسأعود بك إلى المحادثة!</value>
+  </data>
+  <data name="ar_DefaultNotifications" xml:space="preserve">
+    <value>تم تفعيل التنبيهات</value>
+  </data>
+  <data name="ar_DeleteData" xml:space="preserve">
+    <value>حذف البيانات</value>
+  </data>
+  <data name="ar_DeleteQuery" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد حذف جميع بيانات المستخدم الخاصة بك؟</value>
+  </data>
+  <data name="ar_DeleteUser1" xml:space="preserve">
+    <value>الغاء بيانات المستخدم</value>
+  </data>
+  <data name="ar_DeleteUser2" xml:space="preserve">
+    <value>الغاء بيانات المستخدم</value>
+  </data>
+  <data name="ar_DeliveryPref1" xml:space="preserve">
+    <value>{0} تفضيلاتك لطبيعة حضور الدورة حاليا</value>
+  </data>
+  <data name="ar_DeliveryPref2" xml:space="preserve">
+    <value>يرجى تحديد تفضيلاتك لطبيعة حضور الدورة</value>
+  </data>
+  <data name="ar_DidntUnderstand" xml:space="preserve">
+    <value>آسف لم أفهم ذلك</value>
+  </data>
+  <data name="ar_DisplayAccreditationPref" xml:space="preserve">
+    <value>{0} : الاعتماد</value>
+  </data>
+  <data name="ar_DisplayConvLang" xml:space="preserve">
+    <value>{0} : اللغة المفضلة </value>
+  </data>
+  <data name="ar_DisplayCourseDeliveryPref" xml:space="preserve">
+    <value>{0} :تفضيلات التقديم</value>
+  </data>
+  <data name="ar_DisplayCourseLangPref" xml:space="preserve">
+    <value>{0} : لغة الدورة</value>
+  </data>
+  <data name="ar_DisplayEducation" xml:space="preserve">
+    <value>{0} : المستوي التعليمي</value>
+  </data>
+  <data name="ar_DisplayGender" xml:space="preserve">
+    <value>{0} : الجنس</value>
+  </data>
+  <data name="ar_DisplayInterests" xml:space="preserve">
+    <value>{0}  : الأهتمامات</value>
+  </data>
+  <data name="ar_DisplayName" xml:space="preserve">
+    <value>{0} : الأسم</value>
+  </data>
+  <data name="ar_DisplayNotifications" xml:space="preserve">
+    <value>تنبيهات كل  {0}  يوم</value>
+  </data>
+  <data name="ar_DisplayPastCourses" xml:space="preserve">
+    <value>{0} : أخر دورة</value>
+  </data>
+  <data name="ar_EarlyHighSchool" xml:space="preserve">
+    <value>بداية المرحلة الثانوية</value>
+  </data>
+  <data name="ar_EditAccreditation1" xml:space="preserve">
+    <value>تعديل تفضيلات الاعتماد</value>
+  </data>
+  <data name="ar_EditAccreditation2" xml:space="preserve">
+    <value>تعديل تفضيلات الاعتماد</value>
+  </data>
+  <data name="ar_EditConversationLang" xml:space="preserve">
+    <value>تعديل لغة المحادثة</value>
+  </data>
+  <data name="ar_EditDelivery1" xml:space="preserve">
+    <value>تعديل تفضيلات التقديم</value>
+  </data>
+  <data name="ar_EditDelivery2" xml:space="preserve">
+    <value>تعديل تفضيلات التقديم</value>
+  </data>
+  <data name="ar_EditDeliveryLang1" xml:space="preserve">
+    <value>تعديل لغة الدورة</value>
+  </data>
+  <data name="ar_EditDeliveryLang2" xml:space="preserve">
+    <value>تعديل لغة الدورة</value>
+  </data>
+  <data name="ar_EditEducation1" xml:space="preserve">
+    <value>تعديل تفضيلات التعلم</value>
+  </data>
+  <data name="ar_EditEducation2" xml:space="preserve">
+    <value>تعديل تفضيلات التعلم</value>
+  </data>
+  <data name="ar_EditGender1" xml:space="preserve">
+    <value>تعديل الجنس</value>
+  </data>
+  <data name="ar_EditGender2" xml:space="preserve">
+    <value>تعديل الجنس</value>
+  </data>
+  <data name="ar_EditInterests" xml:space="preserve">
+    <value>تعديل الأهتمامات</value>
+  </data>
+  <data name="ar_EditName" xml:space="preserve">
+    <value>تعديل الأسم</value>
+  </data>
+  <data name="ar_EditNotificationFreq" xml:space="preserve">
+    <value>تعديل تردد التنبيهات</value>
+  </data>
+  <data name="ar_EducationLevel" xml:space="preserve">
+    <value>اختر أخر درجة تحصيل علمي</value>
+  </data>
+  <data name="ar_EducationPref1" xml:space="preserve">
+    <value>{0} التحصيل العلمي حالياً</value>
+  </data>
+  <data name="ar_EducationPref2" xml:space="preserve">
+    <value>اختر أخر درجة تحصيل علمي</value>
+  </data>
+  <data name="ar_EducationUpdated" xml:space="preserve">
+    <value>{0} تم تعديل مستوى التعليم ل</value>
+  </data>
+  <data name="ar_Either" xml:space="preserve">
+    <value>كلاهما</value>
+  </data>
+  <data name="ar_English" xml:space="preserve">
+    <value>إنجليزي</value>
+  </data>
+  <data name="ar_FailedProactive" xml:space="preserve">
+    <value>لقد طلبت  مني إعلامك كل {0} يوم ، ولكن للأسف لم تتم إضافة أي دورات تدريبية جديدة مؤخرًا. يمكنك البحث في جميع المواضيع المتاحة هنا أو طلب توصية إذا كنت ترغب في ذلك؟</value>
+  </data>
+  <data name="ar_Female" xml:space="preserve">
+    <value>أنثى</value>
+  </data>
+  <data name="ar_FinanceAvailable" xml:space="preserve">
+    <value>الدعم المالي متاح و يمكن استخدامة</value>
+  </data>
+  <data name="ar_FindSomethingToLearn" xml:space="preserve">
+    <value>هيا نبحث عن  شيء نتعلمه</value>
+  </data>
+  <data name="ar_GenderPref1" xml:space="preserve">
+    <value>{0} اختيار الجنس حاليا</value>
+  </data>
+  <data name="ar_GenderPref2" xml:space="preserve">
+    <value>يرجى تحديد الجنس</value>
+  </data>
+  <data name="ar_GenderUpdated" xml:space="preserve">
+    <value>{0} تم تعديل خيارات الجنس ل</value>
+  </data>
+  <data name="ar_GetCopy" xml:space="preserve">
+    <value>الحصول على نسخة</value>
+  </data>
+  <data name="ar_GoBack" xml:space="preserve">
+    <value>الرجوع</value>
+  </data>
+  <data name="ar_Goodbye" xml:space="preserve">
+    <value>الى اللقاء !</value>
+  </data>
+  <data name="ar_HakeemSpiel" xml:space="preserve">
+    <value>أنا سعيد لأنك فضولي وترغب في معرفة المزيد عني. هذا هو مهارة التعلم كبيرة لديك. هناك العديد من التدريب الجيد على المهارات والدورات الأكاديمية وفرص التعلم الأخرى المتاحة ، ولكن قد يكون من الصعب العثور عليها. بوصفي رفيق تعليمي افتراضي ، أستخدم المعلومات المنسقة من خبراء في الموضوع لمساعدتك في العثور على فرص تعليمية جيدة.</value>
+  </data>
+  <data name="ar_Here" xml:space="preserve">
+    <value>هنا</value>
+  </data>
+  <data name="ar_HereAreCourses" xml:space="preserve">
+    <value>يمكنك العثور على جميع دورات {0} هنا</value>
+  </data>
+  <data name="ar_HowAreYou" xml:space="preserve">
+    <value>كيف حالك ؟</value>
+  </data>
+  <data name="ar_HowAreYouResponse" xml:space="preserve">
+    <value>شكرا للسؤال ، انا بخير</value>
+  </data>
+  <data name="ar_InterestsForm" xml:space="preserve">
+    <value>الأهتمامات نموذج</value>
+  </data>
+  <data name="ar_InterestsPref1" xml:space="preserve">
+    <value>{0} تم تحديد تفضيلاتك ل</value>
+  </data>
+  <data name="ar_InterestsPref2" xml:space="preserve">
+    <value>هل ترغب في تعديل تفضيلاتك ؟</value>
+  </data>
+  <data name="ar_InterestsUpdated" xml:space="preserve">
+    <value>تم تعديل تفضيلاتك</value>
+  </data>
+  <data name="ar_Interval" xml:space="preserve">
+    <value>فترات منتظمة</value>
+  </data>
+  <data name="ar_IsAccredited" xml:space="preserve">
+    <value>هناك خيار للاعتماد متاح لهذه الدورة ، على الرغم من أنه قد يتم فرض رسوم</value>
+  </data>
+  <data name="ar_IWantToLearnTopic" xml:space="preserve">
+    <value>أريد أن أتعلم {0}</value>
+  </data>
+  <data name="ar_JSON" xml:space="preserve">
+    <value>سلمان</value>
+  </data>
+  <data name="ar_JSONFile" xml:space="preserve">
+    <value>JSONملف</value>
+  </data>
+  <data name="ar_Language_Changed" xml:space="preserve">
+    <value>تم تحديث تفضيلات اللغة</value>
+  </data>
+  <data name="ar_Language_Selected" xml:space="preserve">
+    <value>ممتاز ، سأستخدم اللغة العربية</value>
+  </data>
+  <data name="ar_LateHighSchool" xml:space="preserve">
+    <value>نهاية المرحلة الثانوية</value>
+  </data>
+  <data name="ar_LetsLearn" xml:space="preserve">
+    <value>دعونا نتعلم إذاً</value>
+  </data>
+  <data name="ar_Male" xml:space="preserve">
+    <value>ذكر</value>
+  </data>
+  <data name="ar_MyPreferences" xml:space="preserve">
+    <value>تفضيلاتي</value>
+  </data>
+  <data name="ar_NamePref1" xml:space="preserve">
+    <value>{0} أنا اعرفك حالياً ك</value>
+  </data>
+  <data name="ar_NamePref2" xml:space="preserve">
+    <value>كيف ترغب ان اعرفك؟</value>
+  </data>
+  <data name="ar_NameUpdated" xml:space="preserve">
+    <value>ممتاز ، سأخاضبك ب  {0}  من الان فصاعداً</value>
+  </data>
+  <data name="ar_NegativeSentimentDefault" xml:space="preserve">
+    <value>انا اسف لسماع ذلك! أنا أسمع لمساعدتك على التعلم</value>
+  </data>
+  <data name="ar_NegativeSentimentFemale" xml:space="preserve">
+    <value>أنا آسف لسماع ذلك! أنا هنا لمساعدتكي في التعلم</value>
+  </data>
+  <data name="ar_NegativeSentimentMale" xml:space="preserve">
+    <value>أنا آسف لسماع ذلك! أنا هنا لمساعدتك في التعلم</value>
+  </data>
+  <data name="ar_NewConvo" xml:space="preserve">
+    <value>سنبدأ الأن من جديد</value>
+  </data>
+  <data name="ar_NewCourseFound" xml:space="preserve">
+    <value>في الأسبوع الماضي أضفت دورة جديدة في {0}</value>
+  </data>
+  <data name="ar_No" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="ar_NoCourseFound" xml:space="preserve">
+    <value>عذراً، لم أتمكن من العثور علي أي دورة تتعلق بهذا الموضوع، ولكن سأقوم بتدوين ملاحظة بذلك</value>
+  </data>
+  <data name="ar_NoFinanceAvailable" xml:space="preserve">
+    <value>خيار الدعم المالي غير متاح</value>
+  </data>
+  <data name="ar_NoGoBack" xml:space="preserve">
+    <value>لا ، عوده</value>
+  </data>
+  <data name="ar_NonAccredited" xml:space="preserve">
+    <value>غير معتمدة</value>
+  </data>
+  <data name="ar_NotAccredited" xml:space="preserve">
+    <value>خيار الاعتماد غير متاح</value>
+  </data>
+  <data name="ar_NotificationsDisabled" xml:space="preserve">
+    <value>تم إيقاف التنبيهات</value>
+  </data>
+  <data name="ar_NotificationsOff1" xml:space="preserve">
+    <value>لديك حاليًا تم إيقاف تشغيل الإشعارات</value>
+  </data>
+  <data name="ar_NotificationsOff2" xml:space="preserve">
+    <value>إذا كنت ترغب في تشغيل الإشعارات ، يمكنك كتابة عدد الأيام التي تريدها بين الإشعارات أو يمكنك تحديد "تشغيل الإشعارات الافتراضية" لتلقي الإشعارات كل 7 أيام</value>
+  </data>
+  <data name="ar_NotificationsOn1" xml:space="preserve">
+    <value>ستلك التنبيهات كل  {0}  يوم</value>
+  </data>
+  <data name="ar_NotificationsOn2" xml:space="preserve">
+    <value>يرجى كتابة عدد الأيام التي تريدها بين الإشعارات أو إذا كنت ترغب في تحديد "إيقاف تشغيل الإشعارات" لإيقافها</value>
+  </data>
+  <data name="ar_PositiveSentiment" xml:space="preserve">
+    <value>سعيد لسماع ذلك</value>
+  </data>
+  <data name="ar_Preferences" xml:space="preserve">
+    <value>تفضيلاتي</value>
+  </data>
+  <data name="ar_PreferNotToSay" xml:space="preserve">
+    <value>افضل عدم القول</value>
+  </data>
+  <data name="ar_PreferredLanguage" xml:space="preserve">
+    <value>لغتك المفضلة</value>
+  </data>
+  <data name="ar_PreferredSubjects" xml:space="preserve">
+    <value>{0} : المواضيع المفضلة</value>
+  </data>
+  <data name="ar_PrefRecommend" xml:space="preserve">
+    <value>بنأ على التفضيلات التي قدمتها من قبل ، هذه الدورات اللتي تتوافق مع ذلك</value>
+  </data>
+  <data name="ar_PrimarySchool" xml:space="preserve">
+    <value>التعليم الابتدائي</value>
+  </data>
+  <data name="ar_Recommendation" xml:space="preserve">
+    <value>توصية</value>
+  </data>
+  <data name="ar_RecommendFail" xml:space="preserve">
+    <value>عذرًا ، لم أتمكن من العثور على أي دورات أوصي بها لك في الوقت الحالي ، ولكن يمكنك الاطلاع على جميع الموضوعات والمواضيع الفرعية التي أعرفها إذا كنت ترغب في ذلك.</value>
+  </data>
+  <data name="ar_RequestData" xml:space="preserve">
+    <value>طلب بيانات</value>
+  </data>
+  <data name="ar_RequestDataPref" xml:space="preserve">
+    <value>لا مانع ، يرجع اعلامي اذا كنت ترغب ان اشارك ما لدي من معلومات معك او اذا كنت ترغب بتحميل نسخة</value>
+  </data>
+  <data name="ar_RequestDataPrefFemale" xml:space="preserve">
+    <value>لا مانع ، يرجع اعلامي اذا كنت ترغب ان اشارك ما لدي من معلومات معك او اذا كنت ترغبين بتحميل نسخة</value>
+  </data>
+  <data name="ar_RequestDataPrefMale" xml:space="preserve">
+    <value>لا مانع ، يرجع اعلامي اذا كنت ترغب ان اشارك ما لدي من معلومات معك او اذا كنت ترغب بتحميل نسخة</value>
+  </data>
+  <data name="ar_RespondTopics" xml:space="preserve">
+    <value>أخبرني ما الذي تريد أن تدرسه أو قم بالضغط على كلمة "العناوين" لمعرفه ما المواضيع التي أعرف عنها.</value>
+  </data>
+  <data name="ar_RestrictedRecommendation" xml:space="preserve">
+    <value>لم استطع إيجاد ما تفضلة تحديداً ، لذلك لم اعتمد التفضيلات التالية في البحث:</value>
+  </data>
+  <data name="ar_Scheduled" xml:space="preserve">
+    <value>ساعة {0} هذه دورة تعتمد برنامج محدد و تستغرق تقريبا</value>
+  </data>
+  <data name="ar_SearchNew" xml:space="preserve">
+    <value>     لبحث عن دورات جديدة يرجى الضغط على " إبدأ من جديد"⁭</value>
+  </data>
+  <data name="ar_Self_Paced" xml:space="preserve">
+    <value>السرعة الذاتية</value>
+  </data>
+  <data name="ar_SelfPaced" xml:space="preserve">
+    <value>ساعة {0} هذه دورة تعتمد برنامج توقيت الفرد و تستغرق تقريبا</value>
+  </data>
+  <data name="ar_ShowCourses" xml:space="preserve">
+    <value>فيما يلي جميع الدورات التدريبية التي أمتلكها لـ {0} والتي تطابق تفضيلاتك</value>
+  </data>
+  <data name="ar_ShowSubTopics" xml:space="preserve">
+    <value>هذه هي العناوين الفرعية ل {0} في الوقت الحالي . يرجى اختيار واحده لتتمكن من مشاهدة الدورات المطابقة للتفضيلاتك</value>
+  </data>
+  <data name="ar_ShowSubTopicsFemale" xml:space="preserve">
+    <value>هذه هي العناوين الفرعية ل {0} في الوقت الحالي . يرجى اختيار واحده لتتمكني من مشاهدة الدورات المطابقة للتفضيلاتك</value>
+  </data>
+  <data name="ar_ShowSubTopicsMale" xml:space="preserve">
+    <value>هذه هي العناوين الفرعية ل {0} في الوقت الحالي . يرجى اختيار واحده لتتمكن من مشاهدة الدورات المطابقة للتفضيلاتك</value>
+  </data>
+  <data name="ar_ShowTopics" xml:space="preserve">
+    <value>هذه هي العناوين التي اعرف عنها في الوقت الحالي . يرجى اختيار واحده من العناوين الفرعية لتتمكن من مشاهدة الدورات</value>
+  </data>
+  <data name="ar_ShowTopicsFemale" xml:space="preserve">
+    <value>هذه هي العناوين التي اعرف عنها في الوقت الحالي . يرجى اختيار واحده من العناوين الفرعية لتتمكني من مشاهدة الدورات</value>
+  </data>
+  <data name="ar_ShowTopicsMale" xml:space="preserve">
+    <value>هذه هي العناوين التي اعرف عنها في الوقت الحالي . يرجى اختيار واحده من العناوين الفرعية لتتمكن من مشاهدة الدورات</value>
+  </data>
+  <data name="ar_SpeakArabic" xml:space="preserve">
+    <value>حسناً، من الآن فصاعداً سأتحدث إليك باللغة العربية</value>
+  </data>
+  <data name="ar_SpecifiedNotifications" xml:space="preserve">
+    <value>ستصلك التنبيهات كل {0} يوم</value>
+  </data>
+  <data name="ar_SpecifyFileType" xml:space="preserve">
+    <value>يرجى تحديد اذا كنت ترغب بالحصول على ملف نصي او JSONملف</value>
+  </data>
+  <data name="ar_StartOver" xml:space="preserve">
+    <value>إبدأ من جديد</value>
+  </data>
+  <data name="ar_SwitchBetweenLanguages" xml:space="preserve">
+    <value>يمكنك التبديل بين اللغتين العربية والإنجليزية في أي وقت عن طريق إرسال رسالتك ببساطة باللغة التي تريد استخدامها أو كتابة اسم لغتك المفضلة أو من خلال أمر 'تفضيلاتي</value>
+  </data>
+  <data name="ar_SwitchLang" xml:space="preserve">
+    <value>لغة المحادثة حالياً هل اللغة العربية . يرجى الضغط "تحويل" لبدأ المحادثة بالإنجليزية</value>
+  </data>
+  <data name="ar_SwitchToOther" xml:space="preserve">
+    <value>تحول للغة الإنجليزية</value>
+  </data>
+  <data name="ar_TakeCourse" xml:space="preserve">
+    <value>إبدا الدورة</value>
+  </data>
+  <data name="ar_TextFile" xml:space="preserve">
+    <value>ملف نصي</value>
+  </data>
+  <data name="ar_Topics" xml:space="preserve">
+    <value>العناوين</value>
+  </data>
+  <data name="ar_TurnOff" xml:space="preserve">
+    <value>إيقاف تشغيل</value>
+  </data>
+  <data name="ar_TurnOffNotifications" xml:space="preserve">
+    <value>إيقاف تشغيل الإشعارات</value>
+  </data>
+  <data name="ar_TurnOn" xml:space="preserve">
+    <value>شغله</value>
+  </data>
+  <data name="ar_TurnOnNotifications" xml:space="preserve">
+    <value>قم بتشغيل الإشعارات الافتراضية</value>
+  </data>
+  <data name="ar_Txt" xml:space="preserve">
+    <value>نص</value>
+  </data>
+  <data name="ar_University" xml:space="preserve">
+    <value>الجامعة</value>
+  </data>
+  <data name="ar_UsersData" xml:space="preserve">
+    <value>هذا ما اعرفه عنك حاليا</value>
+  </data>
+  <data name="ar_ViewData" xml:space="preserve">
+    <value>عرض البيانات</value>
+  </data>
+  <data name="ar_WhatShouldILearn" xml:space="preserve">
+    <value>توصية</value>
+  </data>
+  <data name="ar_Yes" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="ar_PrivacyPolicyVersion" xml:space="preserve">
+    <value>{0} : سياسة حماية الخصوصية</value>
+  </data>
+  <data name="en_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="en_AboutHakeem" xml:space="preserve">
+    <value>About Hakeem</value>
+  </data>
+  <data name="en_AccreditationUpdated" xml:space="preserve">
+    <value>Your accreditation preference has been updated to {0}</value>
+  </data>
+  <data name="en_Accredited" xml:space="preserve">
+    <value>Accredited</value>
+  </data>
+  <data name="en_AccredPref1" xml:space="preserve">
+    <value>Your accreditation preferences are currently set to {0}</value>
+  </data>
+  <data name="en_AccredPref2" xml:space="preserve">
+    <value>Please select whether you want to study accredited or non-accredited courses</value>
+  </data>
+  <data name="en_AltContinue" xml:space="preserve">
+    <value>Alternatively, select 'Continue' to begin learning</value>
+  </data>
+  <data name="en_AltGoBack" xml:space="preserve">
+    <value>Alternatively, select "Go back" to return to the previous message</value>
+  </data>
+  <data name="en_Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="en_AskTakeCourse" xml:space="preserve">
+    <value>Would you like to take this course?</value>
+  </data>
+  <data name="en_AvailableCourses" xml:space="preserve">
+    <value>Available Courses</value>
+  </data>
+  <data name="en_BeginLearning" xml:space="preserve">
+    <value>Begin Learning</value>
+  </data>
+  <data name="en_Both" xml:space="preserve">
+    <value>Both</value>
+  </data>
+  <data name="en_ChangeInterests" xml:space="preserve">
+    <value>Please click the below link to change your preferred interests</value>
+  </data>
+  <data name="en_ChangePreferences" xml:space="preserve">
+    <value>You can change your preferences now by selecting one of the options below</value>
+  </data>
+  <data name="en_CheckCourseStarted" xml:space="preserve">
+    <value>Did you start this course?</value>
+  </data>
+  <data name="en_CheckUp" xml:space="preserve">
+    <value>I can see you were interested in {0} about a week ago.</value>
+  </data>
+  <data name="en_Clarify_input" xml:space="preserve">
+    <value>What do you want to know about {0}?</value>
+  </data>
+  <data name="en_CommandList1" xml:space="preserve">
+    <value>A list of the commands you can type or say:</value>
+  </data>
+  <data name="en_CommandList2" xml:space="preserve">
+    <value>"Start over" anytime you want to restart the conversation</value>
+  </data>
+  <data name="en_CommandList3" xml:space="preserve">
+    <value>"Topics" to view the current subject options</value>
+  </data>
+  <data name="en_CommandList4" xml:space="preserve">
+    <value>"My Preferences" to update your current preferences</value>
+  </data>
+  <data name="en_CommandList5" xml:space="preserve">
+    <value>"About Hakeem" to learn more about me and the value I offer</value>
+  </data>
+  <data name="en_CommandReminder1" xml:space="preserve">
+    <value>Before we get started, take a second to learn about what I can do.</value>
+  </data>
+  <data name="en_CommandReminder2" xml:space="preserve">
+    <value>Enter “About” if you would like to know more about me</value>
+  </data>
+  <data name="en_CommandReminder3" xml:space="preserve">
+    <value>Enter “Commands” to view all my commands. You can also type “Commands” at any time to view them</value>
+  </data>
+  <data name="en_CommandReminder4" xml:space="preserve">
+    <value>Enter “Preferences” to view the preferences I have stored for you</value>
+  </data>
+  <data name="en_CommandReminder5" xml:space="preserve">
+    <value>Enter “Continue” if you wish to begin learning with me!"</value>
+  </data>
+  <data name="en_Commands" xml:space="preserve">
+    <value>Commands</value>
+  </data>
+  <data name="en_ConfirmDelete" xml:space="preserve">
+    <value>Please confirm that you wish to delete all of your exisiting data</value>
+  </data>
+  <data name="en_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="en_CourseDelivery" xml:space="preserve">
+    <value>Your course delivery preference</value>
+  </data>
+  <data name="en_CourseDeliveryUpdated" xml:space="preserve">
+    <value>Your course delivery preference has been updated to {0}</value>
+  </data>
+  <data name="en_CourseDescription" xml:space="preserve">
+    <value>The course description is here:</value>
+  </data>
+  <data name="en_CourseInfo" xml:space="preserve">
+    <value>Good choice! This is what I know about the course {0}</value>
+  </data>
+  <data name="en_CourseLangPref1" xml:space="preserve">
+    <value>Your course language preference is set to {0}</value>
+  </data>
+  <data name="en_CourseLangPref2" xml:space="preserve">
+    <value>Please select your course language preference</value>
+  </data>
+  <data name="en_CourseLanguageConfirm" xml:space="preserve">
+    <value>Great, I'll recommend courses offered in {0}</value>
+  </data>
+  <data name="en_CourseLink" xml:space="preserve">
+    <value>Click the following link to be brought to the website where the course {0} is available</value>
+  </data>
+  <data name="en_CourseNotStarted" xml:space="preserve">
+    <value>No, I did not</value>
+  </data>
+  <data name="en_Courses" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="en_CourseStarted" xml:space="preserve">
+    <value>Yes, I started taking this course</value>
+  </data>
+  <data name="en_CourseTrailer" xml:space="preserve">
+    <value>You can find a trailer for the course at the following URL: {0}</value>
+  </data>
+  <data name="en_DataDeleted" xml:space="preserve">
+    <value>All of your personal information has been removed from our records</value>
+  </data>
+  <data name="en_DataKept" xml:space="preserve">
+    <value>Ok I won't delete anything and I'll take you right back to the conversation!</value>
+  </data>
+  <data name="en_DefaultNotifications" xml:space="preserve">
+    <value>Default notifications have been enabled</value>
+  </data>
+  <data name="en_DeleteData" xml:space="preserve">
+    <value>Delete Data</value>
+  </data>
+  <data name="en_DeleteQuery" xml:space="preserve">
+    <value>Are you sure you would like to delete all your user data?</value>
+  </data>
+  <data name="en_DeleteUser1" xml:space="preserve">
+    <value>Delete User Data</value>
+  </data>
+  <data name="en_DeleteUser2" xml:space="preserve">
+    <value>Delete User</value>
+  </data>
+  <data name="en_DeliveryPref1" xml:space="preserve">
+    <value>Your current delivery preferences are {0}</value>
+  </data>
+  <data name="en_DeliveryPref2" xml:space="preserve">
+    <value>Please select how you want the course content to be delivered</value>
+  </data>
+  <data name="en_DidntUnderstand" xml:space="preserve">
+    <value>Sorry I didn't understand that</value>
+  </data>
+  <data name="en_DisplayAccreditationPref" xml:space="preserve">
+    <value>Accreditation preference: {0}</value>
+  </data>
+  <data name="en_DisplayConvLang" xml:space="preserve">
+    <value>Preferred conversation language: {0}</value>
+  </data>
+  <data name="en_DisplayCourseDeliveryPref" xml:space="preserve">
+    <value>Course delivery preference: {0}</value>
+  </data>
+  <data name="en_DisplayCourseLangPref" xml:space="preserve">
+    <value>Prefer courses offered in : {0}</value>
+  </data>
+  <data name="en_DisplayEducation" xml:space="preserve">
+    <value>Education level: {0}</value>
+  </data>
+  <data name="en_DisplayGender" xml:space="preserve">
+    <value>Identify as: {0}</value>
+  </data>
+  <data name="en_DisplayInterests" xml:space="preserve">
+    <value>Interested in: {0}</value>
+  </data>
+  <data name="en_DisplayName" xml:space="preserve">
+    <value>Name: {0}</value>
+  </data>
+  <data name="en_DisplayNotifications" xml:space="preserve">
+    <value>You receive notifications every {0} day(s)</value>
+  </data>
+  <data name="en_DisplayPastCourses" xml:space="preserve">
+    <value>Past courses taken: {0}</value>
+  </data>
+  <data name="en_EarlyHighSchool" xml:space="preserve">
+    <value>Early High School</value>
+  </data>
+  <data name="en_EditAccreditation1" xml:space="preserve">
+    <value>Edit Accreditation preferences</value>
+  </data>
+  <data name="en_EditAccreditation2" xml:space="preserve">
+    <value>Edit Accreditation</value>
+  </data>
+  <data name="en_EditConversationLang" xml:space="preserve">
+    <value>Edit Conversation Language</value>
+  </data>
+  <data name="en_EditDelivery1" xml:space="preserve">
+    <value>Edit Delivery preferences</value>
+  </data>
+  <data name="en_EditDelivery2" xml:space="preserve">
+    <value>Edit Delivery</value>
+  </data>
+  <data name="en_EditDeliveryLang1" xml:space="preserve">
+    <value>Edit Course Delivery Language</value>
+  </data>
+  <data name="en_EditDeliveryLang2" xml:space="preserve">
+    <value>Edit Course Language</value>
+  </data>
+  <data name="en_EditEducation1" xml:space="preserve">
+    <value>Edit Education preferences</value>
+  </data>
+  <data name="en_EditEducation2" xml:space="preserve">
+    <value>Edit Education</value>
+  </data>
+  <data name="en_EditGender1" xml:space="preserve">
+    <value>Edit Gender preferences</value>
+  </data>
+  <data name="en_EditGender2" xml:space="preserve">
+    <value>Edit Gender</value>
+  </data>
+  <data name="en_EditInterests" xml:space="preserve">
+    <value>Edit Interests</value>
+  </data>
+  <data name="en_EditName" xml:space="preserve">
+    <value>Edit Name</value>
+  </data>
+  <data name="en_EditNotificationFreq" xml:space="preserve">
+    <value>Edit Notification Frequency</value>
+  </data>
+  <data name="en_EducationLevel" xml:space="preserve">
+    <value>Your education level</value>
+  </data>
+  <data name="en_EducationPref1" xml:space="preserve">
+    <value>Your current education level is set to {0}</value>
+  </data>
+  <data name="en_EducationPref2" xml:space="preserve">
+    <value>Please select you new education level</value>
+  </data>
+  <data name="en_EducationUpdated" xml:space="preserve">
+    <value>Your education level has been updated to {0}</value>
+  </data>
+  <data name="en_Either" xml:space="preserve">
+    <value>Either</value>
+  </data>
+  <data name="en_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="en_FailedProactive" xml:space="preserve">
+    <value>You asked me to notify you every {0} day(s) but unfortunately there hasn't been any new courses added recently. You can search all my available topics here or ask for a recommendation if you'd like?</value>
+  </data>
+  <data name="en_Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="en_FinanceAvailable" xml:space="preserve">
+    <value>Financial aid is available and can be applied for</value>
+  </data>
+  <data name="en_FindSomethingToLearn" xml:space="preserve">
+    <value>Now let’s find something to learn!</value>
+  </data>
+  <data name="en_GenderPref1" xml:space="preserve">
+    <value>Your gender preferences are currently set to {0}</value>
+  </data>
+  <data name="en_GenderPref2" xml:space="preserve">
+    <value>Please choose which gender you wish to identify as</value>
+  </data>
+  <data name="en_GenderUpdated" xml:space="preserve">
+    <value>The gender you prefer to identify as has been updated to {0}</value>
+  </data>
+  <data name="en_GetCopy" xml:space="preserve">
+    <value>Get a Copy</value>
+  </data>
+  <data name="en_GoBack" xml:space="preserve">
+    <value>Go Back</value>
+  </data>
+  <data name="en_Goodbye" xml:space="preserve">
+    <value>Goodbye</value>
+  </data>
+  <data name="en_HakeemSpiel" xml:space="preserve">
+    <value>I am glad you are curious and want to know more about me. That is a great learning skill to have 😊 There are many quality skills-training, academic courses, and other learning opportunities available, but they can be hard to find. As a virtual Learning Companion, I use curated information from subject matter experts to help you find quality learning opportunities.</value>
+  </data>
+  <data name="en_Here" xml:space="preserve">
+    <value>Here</value>
+  </data>
+  <data name="en_HereAreCourses" xml:space="preserve">
+    <value>You can find all {0} courses here</value>
+  </data>
+  <data name="en_HowAreYou" xml:space="preserve">
+    <value>How are you doing?</value>
+  </data>
+  <data name="en_HowAreYouResponse" xml:space="preserve">
+    <value>I'm very well today thanks for asking!</value>
+  </data>
+  <data name="en_InterestsForm" xml:space="preserve">
+    <value>Interests Form</value>
+  </data>
+  <data name="en_InterestsPref1" xml:space="preserve">
+    <value>Your interest preferences are set to {0}</value>
+  </data>
+  <data name="en_InterestsPref2" xml:space="preserve">
+    <value>Would you like update your interests?</value>
+  </data>
+  <data name="en_InterestsUpdated" xml:space="preserve">
+    <value>Your interests have now been updated</value>
+  </data>
+  <data name="en_Interval" xml:space="preserve">
+    <value>Interval</value>
+  </data>
+  <data name="en_IsAccredited" xml:space="preserve">
+    <value>There is an option for accreditation available for this course, although a charge may apply</value>
+  </data>
+  <data name="en_IWantToLearnTopic" xml:space="preserve">
+    <value>I want to learn {0}</value>
+  </data>
+  <data name="en_JSON" xml:space="preserve">
+    <value>json</value>
+  </data>
+  <data name="en_JSONFile" xml:space="preserve">
+    <value>JSON file</value>
+  </data>
+  <data name="en_LateHighSchool" xml:space="preserve">
+    <value>Late High School</value>
+  </data>
+  <data name="en_LetsLearn" xml:space="preserve">
+    <value>Let's get to learning then!</value>
+  </data>
+  <data name="en_Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="en_MyPreferences" xml:space="preserve">
+    <value>My Preferences</value>
+  </data>
+  <data name="en_NamePref1" xml:space="preserve">
+    <value>I currently know you as {0}</value>
+  </data>
+  <data name="en_NamePref2" xml:space="preserve">
+    <value>How would you like to be addressed?</value>
+  </data>
+  <data name="en_NameUpdated" xml:space="preserve">
+    <value>Great, I'll call you {0} from now on.</value>
+  </data>
+  <data name="en_NegativeSentiment" xml:space="preserve">
+    <value>I'm sorry to hear that! I'm here to help you learn</value>
+  </data>
+  <data name="en_NewConvo" xml:space="preserve">
+    <value>I will now start our conversation again</value>
+  </data>
+  <data name="en_NewCourseFound" xml:space="preserve">
+    <value>In the last week I have added a new course in {0}</value>
+  </data>
+  <data name="en_NoCourseFound" xml:space="preserve">
+    <value>Sorry, I couldn't find any related courses, but I'll make a note of that.</value>
+  </data>
+  <data name="en_NoFinanceAvailable" xml:space="preserve">
+    <value>There is no financial aid available</value>
+  </data>
+  <data name="en_NoGoBack" xml:space="preserve">
+    <value>No, go back</value>
+  </data>
+  <data name="en_NonAccredited" xml:space="preserve">
+    <value>Non-Accredited</value>
+  </data>
+  <data name="en_NotAccredited" xml:space="preserve">
+    <value>There is no option for accreditation available</value>
+  </data>
+  <data name="en_NotificationsDisabled" xml:space="preserve">
+    <value>Notifications have been disabled</value>
+  </data>
+  <data name="en_NotificationsOff1" xml:space="preserve">
+    <value>You currently have notifications turned off</value>
+  </data>
+  <data name="en_NotificationsOff2" xml:space="preserve">
+    <value>If you wish to turn notifications on, you can type the number of days you want between notifications or you can select "Turn On Default Notifications" to receive notifications every 7 days</value>
+  </data>
+  <data name="en_NotificationsOn1" xml:space="preserve">
+    <value>You currently receive notifications every {0} days</value>
+  </data>
+  <data name="en_NotificationsOn2" xml:space="preserve">
+    <value>Please type the number of days you want between notifications or if you wish select 'Turn Off Notifications' to switch them off</value>
+  </data>
+  <data name="en_PositiveSentiment" xml:space="preserve">
+    <value>Glad to hear it!</value>
+  </data>
+  <data name="en_Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="en_PreferNotToSay" xml:space="preserve">
+    <value>Prefer not to say</value>
+  </data>
+  <data name="en_PreferredLanguage" xml:space="preserve">
+    <value>Your preferred language</value>
+  </data>
+  <data name="en_PreferredSubjects" xml:space="preserve">
+    <value>Preferred subjects: {0}</value>
+  </data>
+  <data name="en_PrefRecommend" xml:space="preserve">
+    <value>Based on some of the preferences you have shared with me, here are all the courses I think you might like</value>
+  </data>
+  <data name="en_PrimarySchool" xml:space="preserve">
+    <value>Primary School</value>
+  </data>
+  <data name="en_PrivacyPolicyVersion" xml:space="preserve">
+    <value>Privacy Policy version: {0}</value>
+  </data>
+  <data name="en_Recommendation" xml:space="preserve">
+    <value>Recommendation</value>
+  </data>
+  <data name="en_RecommendFail" xml:space="preserve">
+    <value>Sorry, I couldn't find any courses to recommend for you right now, but you can look through all the topics and subtopics I know about if you like.</value>
+  </data>
+  <data name="en_RequestData" xml:space="preserve">
+    <value>Request Data</value>
+  </data>
+  <data name="en_RequestDataPref" xml:space="preserve">
+    <value>No problem.Please specify if you would like me to share with I know about you or send you a copy to download.</value>
+  </data>
+  <data name="en_RespondTopics" xml:space="preserve">
+    <value>Respond with what you want to study or click “Topics” to see what I know about right now.</value>
+  </data>
+  <data name="en_RestrictedRecommendation" xml:space="preserve">
+    <value>I couldn't find any courses that exactly matched you preferences so I had to leave out the following preferences during my search:</value>
+  </data>
+  <data name="en_Scheduled" xml:space="preserve">
+    <value>This is a scheduled-learning course, taking approximately {0}  hours</value>
+  </data>
+  <data name="en_SearchNew" xml:space="preserve">
+    <value>To search for a new course, click "Start Over"</value>
+  </data>
+  <data name="en_Self_Paced" xml:space="preserve">
+    <value>Self-paced</value>
+  </data>
+  <data name="en_SelfPaced" xml:space="preserve">
+    <value>This is a self-paced course, taking approximately {0} hours</value>
+  </data>
+  <data name="en_ShowCourses" xml:space="preserve">
+    <value>Here are all the courses I have for {0} that match your preferences</value>
+  </data>
+  <data name="en_ShowSubTopics" xml:space="preserve">
+    <value>Here are the subtopics of {0} which I currently have courses for. Please pick one to see what courses match your preferences</value>
+  </data>
+  <data name="en_ShowTopics" xml:space="preserve">
+    <value>Here are the topics which I currently know about. Please pick one to see the subtopics which I have courses for:</value>
+  </data>
+  <data name="en_SpeakEnglish" xml:space="preserve">
+    <value>Ok, I will speak to you in English from now on</value>
+  </data>
+  <data name="en_SpecifiedNotifications" xml:space="preserve">
+    <value>You will now receive notifications every {0} days</value>
+  </data>
+  <data name="en_SpecifyFileType" xml:space="preserve">
+    <value>Please specify if you would like a text file or a JSON file</value>
+  </data>
+  <data name="en_StartOver" xml:space="preserve">
+    <value>Start Over</value>
+  </data>
+  <data name="en_SwitchBetweenLanguages" xml:space="preserve">
+    <value>You can switch between English and Arabic at any time by simply sending your message in the language you want to use, typing the name of your preferred language or through the “My Preferences” command</value>
+  </data>
+  <data name="en_SwitchLang" xml:space="preserve">
+    <value>We currently converse in English. Please click "Switch" to converse in Arabic from here on</value>
+  </data>
+  <data name="en_SwitchToOther" xml:space="preserve">
+    <value>Switch to Arabic</value>
+  </data>
+  <data name="en_TakeCourse" xml:space="preserve">
+    <value>Take Course</value>
+  </data>
+  <data name="en_TextFile" xml:space="preserve">
+    <value>Text file</value>
+  </data>
+  <data name="en_Topics" xml:space="preserve">
+    <value>Topics</value>
+  </data>
+  <data name="en_TurnOff" xml:space="preserve">
+    <value>Turn off</value>
+  </data>
+  <data name="en_TurnOffNotifications" xml:space="preserve">
+    <value>Turn off notifications</value>
+  </data>
+  <data name="en_TurnOn" xml:space="preserve">
+    <value>Turn on</value>
+  </data>
+  <data name="en_TurnOnNotifications" xml:space="preserve">
+    <value>Turn on default notifications</value>
+  </data>
+  <data name="en_Txt" xml:space="preserve">
+    <value>txt</value>
+  </data>
+  <data name="en_University" xml:space="preserve">
+    <value>University</value>
+  </data>
+  <data name="en_UsersData" xml:space="preserve">
+    <value>Here's what I currenly know about you..</value>
+  </data>
+  <data name="en_ViewData" xml:space="preserve">
+    <value>View Data</value>
+  </data>
+  <data name="en_WhatShouldILearn" xml:space="preserve">
+    <value>What should I learn?</value>
+  </data>
+  <data name="ar" xml:space="preserve">
+    <value>ar</value>
+  </data>
+  <data name="ar_AskForName" xml:space="preserve">
+    <value>يبدو أننا لم نلتق من قبل، أسمي حكيم وأنا هنا لمساعدتك بالتعلّم، اخبرني ما أسمك؟</value>
+  </data>
+  <data name="ar_ContinueInArabic" xml:space="preserve">
+    <value>الأستمرار باللغة العربية</value>
+  </data>
+  <data name="ar_DataDownload" xml:space="preserve">
+    <value>نموذج التفضيلات</value>
+  </data>
+  <data name="ar_DataLink" xml:space="preserve">
+    <value>ستكون المعلومات الواردة في الرابط التالي سارية لمدة 30 ثانية ، وبعدها ستوضح أنها ستتم مطالبتك بطلب البيانات مرة أخرى.</value>
+  </data>
+  <data name="ar_HowAreYouName" xml:space="preserve">
+    <value>مرحباً {0}، كيف حالك اليوم؟</value>
+  </data>
+  <data name="ar_UsingArabic" xml:space="preserve">
+    <value>بناء علي ردودك سأستخدم اللغة العربية</value>
+  </data>
+  <data name="en" xml:space="preserve">
+    <value>en</value>
+  </data>
+  <data name="en_AskForName" xml:space="preserve">
+    <value>Hi there! I see we either haven't met before or haven't spoken in a long time. Before we get started, what should I call you?</value>
+  </data>
+  <data name="en_ContinueInEnglish" xml:space="preserve">
+    <value>Continue in English</value>
+  </data>
+  <data name="en_DataDownload" xml:space="preserve">
+    <value>Your Data - Click to Download</value>
+  </data>
+  <data name="en_DataLink" xml:space="preserve">
+    <value>The information at the following link will be valid for 30 seconds after which point it will clear and you will be required to request the data again. </value>
+  </data>
+  <data name="en_HowAreYouName" xml:space="preserve">
+    <value>Hello {0}, How are you doing today?</value>
+  </data>
+  <data name="en_LanguageNotSupported" xml:space="preserve">
+    <value>That language is not yet supported. Defaulting to English</value>
+  </data>
+  <data name="en_UsingEnglish" xml:space="preserve">
+    <value>I'll use English based on your response.</value>
+  </data>
+  <data name="ar_CompleteFormWarning" xml:space="preserve">
+    <value>لا يمكن أن تستمر محادثتنا حتى تكمل هذا النموذج ، شكرا لك</value>
+  </data>
+  <data name="ar_EG" xml:space="preserve">
+    <value>ar-EG</value>
+  </data>
+  <data name="ar_HopeNextCourseBetter" xml:space="preserve">
+    <value>اتمنى ان تحظى بتجربة افضل في الدورة القادمة</value>
+  </data>
+  <data name="ar_NegativeCourseFeedback" xml:space="preserve">
+    <value>أسف لسماع ذلك ، اين حصل الخطأ ؟</value>
+  </data>
+  <data name="ar_NiceToMeetYou" xml:space="preserve">
+    <value>{0} سررت بمعرفتك  </value>
+  </data>
+  <data name="ar_PostiveCourseFeedback" xml:space="preserve">
+    <value>سعيد لسماع ذلك ! استمر</value>
+  </data>
+  <data name="ar_PreferenceFormLink" xml:space="preserve">
+    <value>اخبرنا الان ما هي اهتماماتك و الدورات التي تفضلها. يرجى الضغظ على الرابط ادناه لأدخال بعض البيانات عن اهتماماتك و الدورات المفضلة</value>
+  </data>
+  <data name="ar_PreferencesForm" xml:space="preserve">
+    <value>نموذج التفضيلات</value>
+  </data>
+  <data name="ar_ThanksForInfo" xml:space="preserve">
+    <value>أشكرك على هذه المعلومات، سأستفيد منها لمساعدتك في المستقبل</value>
+  </data>
+  <data name="ar_WeeklyNotifications" xml:space="preserve">
+    <value>سأرسل لك تنبيهات كل 7 أيام. يمكنك تغيير التردد أو إيقاف تشغيل التنبيهات بالكامل في 'تفضيلاتي'</value>
+  </data>
+  <data name="cosmosEndpointExtra" xml:space="preserve">
+    <value>?ssl=true&amp;replicaSet=globaldb&amp;socketTimeout=30&amp;connectTimeout=30</value>
+  </data>
+  <data name="directline" xml:space="preserve">
+    <value>directline</value>
+  </data>
+  <data name="en_CompleteFormWarning" xml:space="preserve">
+    <value>Our conversation cannot continue until you complete this form, thank you</value>
+  </data>
+  <data name="en_HopeNextCourseBetter" xml:space="preserve">
+    <value>Well hopefully the next course will go better!</value>
+  </data>
+  <data name="en_NegativeCourseFeedback" xml:space="preserve">
+    <value>I'm sorry to hear that! What went wrong?</value>
+  </data>
+  <data name="en_NiceToMeetYou" xml:space="preserve">
+    <value>Nice to meet you {0}</value>
+  </data>
+  <data name="en_PostiveCourseFeedback" xml:space="preserve">
+    <value>I'm glad to hear it! Keep working hard</value>
+  </data>
+  <data name="en_PreferenceFormLink" xml:space="preserve">
+    <value>Now lets see what interests you so I can recommend some courses your might like. Click the link below to enter some details about your likes and interests."</value>
+  </data>
+  <data name="en_PreferencesForm" xml:space="preserve">
+    <value>Preferences Form</value>
+  </data>
+  <data name="en_ThanksForInfo" xml:space="preserve">
+    <value>Thank you for providing me with that information! It will help me make better recommendations for you in the future</value>
+  </data>
+  <data name="en_US" xml:space="preserve">
+    <value>en-US</value>
+  </data>
+  <data name="en_WeeklyNotifications" xml:space="preserve">
+    <value>I'll send you notifications by default every 7 days. You can change the frequency or turn notifications off completely in 'My Preferences'.</value>
+  </data>
+  <data name="luisEndpointExtra" xml:space="preserve">
+    <value>&amp;verbose=true&amp;timezoneOffset=60&amp;q=</value>
+  </data>
+  <data name="detectPath" xml:space="preserve">
+    <value>/detect?api-version=3.0</value>
+  </data>
+  <data name="translatePath" xml:space="preserve">
+    <value>/translate?api-version=3.0</value>
+  </data>
+  <data name="ar_CourseAccreditation" xml:space="preserve">
+    <value>تفضيل الاعتماد بالطبع الخاص بك</value>
+  </data>
+  <data name="ar_CourseDeliveryLanguage" xml:space="preserve">
+    <value>{0} يتم تسليم هذه الدورة في</value>
+  </data>
+  <data name="ar_ShowRestrictedCourses" xml:space="preserve">
+    <value>لم أتمكن من العثور على أي دورات مطابقة تمامًا لتفضيلاتك لذا اضطررت إلى استبعاد التفضيلات التالية أثناء البحث: {0}
+فيما يلي الدورات التدريبية التي أجريتها مع {1} مع تنفيذ هذا التغيير على عملية البحث التي أجريتها</value>
+  </data>
+  <data name="en_Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="en_Beginner" xml:space="preserve">
+    <value>Beginner</value>
+  </data>
+  <data name="en_CourseAccreditation" xml:space="preserve">
+    <value>Your course accreditation preference</value>
+  </data>
+  <data name="en_CourseDeliveryLanguage" xml:space="preserve">
+    <value>This course is delivered in {0}</value>
+  </data>
+  <data name="en_Intermediate" xml:space="preserve">
+    <value>Intermediate</value>
+  </data>
+  <data name="en_Negative" xml:space="preserve">
+    <value>negative</value>
+  </data>
+  <data name="en_Positive" xml:space="preserve">
+    <value>positive</value>
+  </data>
+  <data name="en_ShowRestrictedCourses" xml:space="preserve">
+    <value>I couldn’t find any courses that exactly matched you preferences so I had to leave out the following preferences during my search: {0}
+Here are the courses I have for {1} with that change to my search implemented</value>
+  </data>
+  <data name="ar_ChooseLanguage" xml:space="preserve">
+    <value>(فضلاً أخبرني اللغة التي تريد التحدث بها معي (أي الإنجليزية أو العربية</value>
+  </data>
+  <data name="ar_HakeemIntroduction" xml:space="preserve">
+    <value>مرحبا! أنا حكيم، رفيق التعليم الافتراضي الخاص بك. أنا متحمّس لمساعدتك في اكتشاف وتعلم أشياء جديدة</value>
+  </data>
+  <data name="en_ChooseLanguage" xml:space="preserve">
+    <value>Please tell me the language you want to speak to me with (i.e. English or Arabic)</value>
+  </data>
+  <data name="en_HakeemIntroduction" xml:space="preserve">
+    <value>Hi!I'm Hakeem, your virtual Learning Companion. It's exciting to help you discover and learn new things.</value>
+  </data>
+  <data name="ar_CourseInfo" xml:space="preserve">
+    <value>{0} اختيار جيد ! اليك ما اعرفه عن هذه الدورة</value>
+  </data>
+  <data name="ar_Advanced" xml:space="preserve">
+    <value>المتقدمة</value>
+  </data>
+  <data name="ar_Beginner" xml:space="preserve">
+    <value>مبتدئ</value>
+  </data>
+  <data name="ar_Intermediate" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="ar_Accounting" xml:space="preserve">
+    <value>المحاسبة</value>
+  </data>
+  <data name="ar_Archaeology" xml:space="preserve">
+    <value>علم الأثار</value>
+  </data>
+  <data name="ar_Architecture" xml:space="preserve">
+    <value>علوم الزراعة</value>
+  </data>
+  <data name="ar_Art" xml:space="preserve">
+    <value>الفنون</value>
+  </data>
+  <data name="ar_Astronomy" xml:space="preserve">
+    <value>علم الفلك</value>
+  </data>
+  <data name="ar_Biology" xml:space="preserve">
+    <value>الأحياء</value>
+  </data>
+  <data name="ar_BoardGames" xml:space="preserve">
+    <value>مجلس الألعاب</value>
+  </data>
+  <data name="ar_Chemistry" xml:space="preserve">
+    <value>الكيمياء</value>
+  </data>
+  <data name="ar_Computers" xml:space="preserve">
+    <value>الحاسب الالي</value>
+  </data>
+  <data name="ar_Cooking" xml:space="preserve">
+    <value>تحضير الطعام</value>
+  </data>
+  <data name="ar_Economics" xml:space="preserve">
+    <value>الاقتصاد</value>
+  </data>
+  <data name="ar_Engineering" xml:space="preserve">
+    <value>الهندسة</value>
+  </data>
+  <data name="ar_Entrepreneurship" xml:space="preserve">
+    <value>ريادة الاعمال</value>
+  </data>
+  <data name="ar_Finance" xml:space="preserve">
+    <value>المالية</value>
+  </data>
+  <data name="ar_Geography" xml:space="preserve">
+    <value>الجغرافيا</value>
+  </data>
+  <data name="ar_History" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="ar_Languages" xml:space="preserve">
+    <value>اللغات</value>
+  </data>
+  <data name="ar_Marketing" xml:space="preserve">
+    <value>التسويق</value>
+  </data>
+  <data name="ar_Maths" xml:space="preserve">
+    <value>الرياضيات</value>
+  </data>
+  <data name="ar_Media" xml:space="preserve">
+    <value>وسائل الاعلام</value>
+  </data>
+  <data name="ar_Medicine" xml:space="preserve">
+    <value>العلوم الطبية</value>
+  </data>
+  <data name="ar_Music" xml:space="preserve">
+    <value>الموسيقى</value>
+  </data>
+  <data name="ar_Nature" xml:space="preserve">
+    <value>الطبيعة</value>
+  </data>
+  <data name="ar_Nutrition" xml:space="preserve">
+    <value>التغذية</value>
+  </data>
+  <data name="ar_Philosophy" xml:space="preserve">
+    <value>الفلسفة</value>
+  </data>
+  <data name="ar_Physics" xml:space="preserve">
+    <value>الفيزياء</value>
+  </data>
+  <data name="ar_Poetry" xml:space="preserve">
+    <value>الشعر</value>
+  </data>
+  <data name="ar_Politics" xml:space="preserve">
+    <value>السياسة</value>
+  </data>
+  <data name="ar_Psychology" xml:space="preserve">
+    <value>علم النفس</value>
+  </data>
+  <data name="ar_Reading" xml:space="preserve">
+    <value>القرأة</value>
+  </data>
+  <data name="ar_Religion" xml:space="preserve">
+    <value>دين</value>
+  </data>
+  <data name="ar_Sociology" xml:space="preserve">
+    <value>علم الاجتماع</value>
+  </data>
+  <data name="ar_Sports" xml:space="preserve">
+    <value>الرياضة</value>
+  </data>
+  <data name="ar_VideoGames" xml:space="preserve">
+    <value>العاب الكترونية</value>
+  </data>
+  <data name="ar_Writing" xml:space="preserve">
+    <value>الكتابة</value>
+  </data>
+  <data name="en_Accounting" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
+  <data name="en_And" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="en_Archaeology" xml:space="preserve">
+    <value>Archaeology</value>
+  </data>
+  <data name="en_Architecture" xml:space="preserve">
+    <value>Architecture</value>
+  </data>
+  <data name="en_Art" xml:space="preserve">
+    <value>Art</value>
+  </data>
+  <data name="en_Astronomy" xml:space="preserve">
+    <value>Astronomy</value>
+  </data>
+  <data name="en_Back" xml:space="preserve">
+    <value>back</value>
+  </data>
+  <data name="en_Biology" xml:space="preserve">
+    <value>Biology</value>
+  </data>
+  <data name="en_BoardGames" xml:space="preserve">
+    <value>Board-Games</value>
+  </data>
+  <data name="en_Chemistry" xml:space="preserve">
+    <value>Chemistry</value>
+  </data>
+  <data name="en_Computers" xml:space="preserve">
+    <value>Computers</value>
+  </data>
+  <data name="en_Cooking" xml:space="preserve">
+    <value>Cooking</value>
+  </data>
+  <data name="en_Economics" xml:space="preserve">
+    <value>Economics</value>
+  </data>
+  <data name="en_Engineering" xml:space="preserve">
+    <value>Engineering</value>
+  </data>
+  <data name="en_Entrepreneurship" xml:space="preserve">
+    <value>Entrepreneurship</value>
+  </data>
+  <data name="en_Error" xml:space="preserve">
+    <value>error</value>
+  </data>
+  <data name="en_Fail" xml:space="preserve">
+    <value>fail</value>
+  </data>
+  <data name="en_Finance" xml:space="preserve">
+    <value>Finance</value>
+  </data>
+  <data name="en_For" xml:space="preserve">
+    <value>for</value>
+  </data>
+  <data name="en_Geography" xml:space="preserve">
+    <value>Geography</value>
+  </data>
+  <data name="en_History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="en_it" xml:space="preserve">
+    <value>it</value>
+  </data>
+  <data name="en_ITabbrev" xml:space="preserve">
+    <value>IT</value>
+  </data>
+  <data name="en_Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="en_Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="en_Maths" xml:space="preserve">
+    <value>Maths</value>
+  </data>
+  <data name="en_Media" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="en_Medicine" xml:space="preserve">
+    <value>Medicine</value>
+  </data>
+  <data name="en_Music" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="en_Nature" xml:space="preserve">
+    <value>Nature</value>
+  </data>
+  <data name="en_Nutrition" xml:space="preserve">
+    <value>Nutrition</value>
+  </data>
+  <data name="en_Of" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="en_Philosophy" xml:space="preserve">
+    <value>Philosophy</value>
+  </data>
+  <data name="en_Physics" xml:space="preserve">
+    <value>Physics</value>
+  </data>
+  <data name="en_Poetry" xml:space="preserve">
+    <value>Poetry</value>
+  </data>
+  <data name="en_Politics" xml:space="preserve">
+    <value>Politics</value>
+  </data>
+  <data name="en_Psychology" xml:space="preserve">
+    <value>Psychology</value>
+  </data>
+  <data name="en_Reading" xml:space="preserve">
+    <value>Reading</value>
+  </data>
+  <data name="en_Religion" xml:space="preserve">
+    <value>Religion</value>
+  </data>
+  <data name="en_Sociology" xml:space="preserve">
+    <value>Sociology</value>
+  </data>
+  <data name="en_Sports" xml:space="preserve">
+    <value>Sports</value>
+  </data>
+  <data name="en_VideoGames" xml:space="preserve">
+    <value>Video-Games</value>
+  </data>
+  <data name="en_With" xml:space="preserve">
+    <value>with</value>
+  </data>
+  <data name="en_Writing" xml:space="preserve">
+    <value>Writing</value>
+  </data>
+  <data name="failedRenewingAccessToken" xml:space="preserve">
+    <value>Failed renewing access token. Details: {0}</value>
+  </data>
+  <data name="failedRescheduleRenewToken" xml:space="preserve">
+    <value>Failed to reschedule the timer to renew access token. Details: {0}</value>
+  </data>
+  <data name="generateSpeechName" xml:space="preserve">
+    <value>Microsoft Server Speech Text to Speech Voice (en-IE, Sean)</value>
+  </data>
+  <data name="qnaMakerAuthorization" xml:space="preserve">
+    <value>Authorization</value>
+  </data>
+  <data name="qnaMakerEndpointKey" xml:space="preserve">
+    <value>EndpointKey </value>
+  </data>
+  <data name="qnaMakerEndpointkeys" xml:space="preserve">
+    <value>/endpointkeys</value>
+  </data>
+  <data name="qnaMakerGenerateAnswer" xml:space="preserve">
+    <value>/generateAnswer</value>
+  </data>
+  <data name="qnaMakerKnowledge" xml:space="preserve">
+    <value>/knowledgebases</value>
+  </data>
+  <data name="qnaMakerPath" xml:space="preserve">
+    <value>/qnamaker</value>
+  </data>
+  <data name="qnaMakerPrimaryEndpointkey" xml:space="preserve">
+    <value>primaryEndpointKey</value>
+  </data>
+  <data name="qnaMakerService" xml:space="preserve">
+    <value>/qnamaker/v4.0</value>
+  </data>
+  <data name="textToSpeechName" xml:space="preserve">
+    <value>Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)</value>
+  </data>
+  <data name="ar_BotIssue" xml:space="preserve">
+    <value>أنا آسف ، رمز الروبوت الخاص بي يواجه مشكلة</value>
+  </data>
+  <data name="en_BotIssue" xml:space="preserve">
+    <value>I'm sorry, my bot code is having an issue</value>
+  </data>
+  <data name="en_UseArabic" xml:space="preserve">
+    <value>Use Arabic</value>
+  </data>
+  <data name="en_UseEnglish" xml:space="preserve">
+    <value>Use English</value>
+  </data>
+  <data name="ar_DataTimestamp" xml:space="preserve">
+    <value>المعلومات الواردة في هذا الرابط دقيقة حتى الوقت الحالي في {0}</value>
+  </data>
+  <data name="en_DataTimestamp" xml:space="preserve">
+    <value>The information at this link is accurate up to the current time on {0}</value>
+  </data>
+  <data name="en_Finished" xml:space="preserve">
+    <value>Did you finish the course?</value>
+  </data>
+  <data name="en_NoteMade" xml:space="preserve">
+    <value>Ok I have made a note of that, thank you!</value>
+  </data>
+  <data name="en_ReCheck" xml:space="preserve">
+    <value>Over a week ago you told me you were taking the course {0}</value>
+  </data>
+  <data name="en_StillTaking" xml:space="preserve">
+    <value>Are you still taking this course?</value>
+  </data>
+  <data name="ar_DoYouWantToSeeCourses" xml:space="preserve">
+    <value>هل تريد مني أن أريك كل {0} التي تطابق تفضيلاتك؟ </value>
+  </data>
+  <data name="ar_DoYouWantToSeeCourses2" xml:space="preserve">
+    <value>({0} هو موضوع فرعي لـ {1})</value>
+  </data>
+  <data name="ar_Finished" xml:space="preserve">
+    <value>هل انتهيت من الدورة؟</value>
+  </data>
+  <data name="ar_NoteMade" xml:space="preserve">
+    <value>حسنا ، لقد لاحظت ذلك ، شكرا لك!</value>
+  </data>
+  <data name="ar_ReCheck" xml:space="preserve">
+    <value>{0} منذ أكثر من أسبوع ، أخبرتني أنك تدرس الدورة</value>
+  </data>
+  <data name="ar_ShowMe" xml:space="preserve">
+    <value>أرني الدورات {0}</value>
+  </data>
+  <data name="en_DoYouWantToSeeCourses" xml:space="preserve">
+    <value>Do you want me to show you all the {0} that match your preferences? ({0} is a subtopic of {1})</value>
+  </data>
+  <data name="en_ShowMe" xml:space="preserve">
+    <value>Show me the {0} courses</value>
+  </data>
+</root>

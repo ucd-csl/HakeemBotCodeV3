@@ -1,0 +1,18 @@
+{
+    "name": "hakeem",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "appId": "a59e7670-6105-46bb-a00e-9c81cfe3b913",
+            "appPassword": "fmkXQVK8mxxoZRB2353~#+_",
+            "endpoint": "http://localhost:3979/api/messages",
+            "id": "e85f5e70-0062-11e9-8770-cf9049277c6e",
+            "name": "http://localhost:3979/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "overrides": null,
+    "path": "C:\\Users\\hug_h\\repos\\NetHope\\NetHope\\hakeem.bot"
+}
