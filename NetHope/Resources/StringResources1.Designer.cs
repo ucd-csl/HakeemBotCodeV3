@@ -925,20 +925,11 @@ namespace NetHope.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to هل تريد مني أن أريك كل {0} التي تطابق تفضيلاتك؟ .
+        ///   Looks up a localized string similar to هل تريد مني أن أريك كل {0} التي تطابق تفضيلاتك؟ ({0} هو موضوع فرعي لـ {1}).
         /// </summary>
         internal static string ar_DoYouWantToSeeCourses {
             get {
                 return ResourceManager.GetString("ar_DoYouWantToSeeCourses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ({0} هو موضوع فرعي لـ {1}).
-        /// </summary>
-        internal static string ar_DoYouWantToSeeCourses2 {
-            get {
-                return ResourceManager.GetString("ar_DoYouWantToSeeCourses2", resourceCulture);
             }
         }
         

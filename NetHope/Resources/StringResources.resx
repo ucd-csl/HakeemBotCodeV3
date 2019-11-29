@@ -1692,10 +1692,7 @@ Here are the courses I have for {1} with that change to my search implemented</v
     <value>Are you still taking this course?</value>
   </data>
   <data name="ar_DoYouWantToSeeCourses" xml:space="preserve">
-    <value>هل تريد مني أن أريك كل {0} التي تطابق تفضيلاتك؟ </value>
-  </data>
-  <data name="ar_DoYouWantToSeeCourses2" xml:space="preserve">
-    <value>({0} هو موضوع فرعي لـ {1})</value>
+    <value>هل تريد مني أن أريك كل {0} التي تطابق تفضيلاتك؟ ({0} هو موضوع فرعي لـ {1})</value>
   </data>
   <data name="ar_Finished" xml:space="preserve">
     <value>هل انتهيت من الدورة؟</value>

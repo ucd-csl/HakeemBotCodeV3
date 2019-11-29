@@ -43,7 +43,6 @@ namespace NetHope.Controllers
             string WantToLearn = StringResources.ResourceManager.GetString($"{language}_IWantToLearnTopic");
             string ShowMe = StringResources.ResourceManager.GetString($"{language}_ShowMe");
             string ShowCourse = StringResources.ResourceManager.GetString($"{language}_DoYouWantToSeeCourses");
-            if(language == StringResources.ar) ShowCourse += "  " + StringResources.ar_DoYouWantToSeeCourses2;
             Address address = new Address(reference.Bot.Id, reference.ChannelId, reference.User.Id, reference.Conversation.Id, reference.ServiceUrl);
             ResumptionCookie resumptionCookie = new ResumptionCookie(address, reference.User.Name, false, activity.Locale);
             var message = (Activity)resumptionCookie.GetMessage();
