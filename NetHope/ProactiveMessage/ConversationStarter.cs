@@ -48,6 +48,7 @@ namespace NetHope.ProactiveMessage
             Activity activity = await result as Activity;
             if (!SaveConversationData.CheckUserExists(activity.From.Id))
             {
+                user = new UserDataCollection();
                 await context.PostAsync(String.Format(StringResources.en_HakeemIntroduction + "{0}" + StringResources.ar_HakeemIntroduction, "\n\n"));
                 var response = context.MakeMessage();
                 response.Text = String.Format(StringResources.en_ChooseLanguage + "{0}" + StringResources.ar_ChooseLanguage, "\n\n");
