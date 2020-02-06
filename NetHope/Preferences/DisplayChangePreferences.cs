@@ -1208,16 +1208,16 @@ namespace NetHope.Preferences
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "delete data":
-                    await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
+                    //await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
                     ConversationStarter.user = new UserDataCollection();
-                    await SaveConversationData.DeleteUserData(activity.From.Id);
+                    await SaveConversationData.DeleteUserData(cosmosID);
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DataDeleted"));
                     await context.Forward(new ConversationStarter(), null, activity, CancellationToken.None);
                     break;
                 case "حذف البيانات":
-                    await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
+                    //await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
+                    await SaveConversationData.DeleteUserData(cosmosID);
                     ConversationStarter.user = new UserDataCollection();
-                    await SaveConversationData.DeleteUserData(activity.From.Id);
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DataDeleted"));
                     await context.Forward(new ConversationStarter(), null, activity, CancellationToken.None);
                     break;

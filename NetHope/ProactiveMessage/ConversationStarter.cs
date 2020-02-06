@@ -136,7 +136,7 @@ namespace NetHope.ProactiveMessage
             Activity activity = await result as Activity;
             string name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(activity.Text.ToLower());
             string language = user.PreferedLang;
-            await SaveConversationData.SaveConversationAsync(activity.From.Name, activity.Recipient.Id, activity.Recipient.Name, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id);
+            //await SaveConversationData.SaveConversationAsync(activity.From.Name, activity.Recipient.Id, activity.Recipient.Name, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id);
             ConversationReference reference = new ConversationReference
             {
                 ActivityId = activity.From.Id,

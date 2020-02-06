@@ -30,7 +30,7 @@ namespace NetHope
             {
                 ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12;
             }
-            
+
             Conversation.UpdateContainer(
                 builder =>
                 {
@@ -43,7 +43,7 @@ namespace NetHope
                         .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                         .AsSelf()
                         .SingleInstance();
-       
+
                 });
             GlobalConfiguration.Configure(WebApiConfig.Register);
             this.RegisterBotModules();

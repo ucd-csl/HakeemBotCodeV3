@@ -197,8 +197,8 @@ namespace NetHope.Dialogs
             language = ConversationStarter.user.PreferedLang;
             if (activity.Text.ToLower() == StringResources.en_Yes.ToLower() || activity.Text == StringResources.ar_Yes)
             {
-                await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
-                await SaveConversationData.DeleteUserData(activity.From.Id);
+                //await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
+                await SaveConversationData.DeleteUserData(ConversationStarter.user._id);
                 await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DataDeleted"));
                 await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_NewConvo"));
                 await context.Forward(new ConversationStarter(), SendToRoot, context.Activity, CancellationToken.None);
@@ -262,7 +262,7 @@ namespace NetHope.Dialogs
         {
             string language = ConversationStarter.user.PreferedLang.ToLower();
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_Goodbye"));
-            await SaveConversationData.EndConversation(context.Activity.Conversation.Id);
+            //await SaveConversationData.EndConversation(context.Activity.Conversation.Id);
             context.Done(true);
         }
 

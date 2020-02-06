@@ -19,7 +19,7 @@ namespace NetHope.ProactiveMessage
 {
     public class SaveConversationData
     {
-        private static readonly IMongoCollection<ConversationObject> UserCollection = GetReferenceToCollection<ConversationObject>(ConfigurationManager.AppSettings["ConversationCollection"]);
+        //private static readonly IMongoCollection<ConversationObject> UserCollection = GetReferenceToCollection<ConversationObject>(ConfigurationManager.AppSettings["ConversationCollection"]);
         private static readonly IMongoCollection<UserDataCollection> UserDataCollection = GetReferenceToCollection<UserDataCollection>(ConfigurationManager.AppSettings["UserCollection"]);
         private static readonly IMongoCollection<CourseList> CoursesCollection = GetReferenceToCollection<CourseList>(ConfigurationManager.AppSettings["CourseCollection"]);
 
@@ -71,17 +71,17 @@ namespace NetHope.ProactiveMessage
             return user;
         }
 
-        internal async static Task<ConversationObject> GetConversationObject(string conversationId)
-        {
-            try
-            {
-                return await UserCollection.Find(_ => _.ConversationId == conversationId).SingleAsync();
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
+        //internal async static Task<ConversationObject> GetConversationObject(string conversationId)
+        //{
+        //    try
+        //    {
+        //        return await UserCollection.Find(_ => _.ConversationId == conversationId).SingleAsync();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+        //}
 
         internal static async Task UpdateInputLanguage(BsonObjectId id, string language)
         {
@@ -91,58 +91,58 @@ namespace NetHope.ProactiveMessage
         }
 
         /* Called by root dialog to save new conversation IDs*/
-        internal static async Task<bool> SaveBasicConversationAsync(string fromId, string serviceUrl, string channelId, string conversationId, bool status)
-        {
-            var exists = UserCollection.AsQueryable().FirstOrDefault(x => x.ConversationId == conversationId) != null;
+        //internal static async Task<bool> SaveBasicConversationAsync(string fromId, string serviceUrl, string channelId, string conversationId, bool status)
+        //{
+        //    var exists = UserCollection.AsQueryable().FirstOrDefault(x => x.ConversationId == conversationId) != null;
 
-            if (!exists)
-            {
+        //    if (!exists)
+        //    {
 
-                await UserCollection.InsertOneAsync(
-                    new ConversationObject
-                    {
-                        FromId = fromId,
-                        ServiceUrl = serviceUrl,
-                        ConversationId = conversationId,
-                        Date = DateTime.Now,
-                        Status = status,
-                        FromName = "",
-                        ToId = "",
-                        ToName = "",
-                        ChannelId = "",
-                        Language = "",
+        //        await UserCollection.InsertOneAsync(
+        //            new ConversationObject
+        //            {
+        //                FromId = fromId,
+        //                ServiceUrl = serviceUrl,
+        //                ConversationId = conversationId,
+        //                Date = DateTime.Now,
+        //                Status = status,
+        //                FromName = "",
+        //                ToId = "",
+        //                ToName = "",
+        //                ChannelId = "",
+        //                Language = "",
 
-                    });
+        //            });
 
-                return true;
-            }
-            else // updating the time of already existing attribute
-            {
-                var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
-                ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
-                DateTime previousDate = results.Date;
-                results.Date = DateTime.Now;
+        //        return true;
+        //    }
+        //    else // updating the time of already existing attribute
+        //    {
+        //        var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
+        //        ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
+        //        DateTime previousDate = results.Date;
+        //        results.Date = DateTime.Now;
                 
-                var result = await UserCollection.ReplaceOneAsync(filter, results);
-            }
-            return false;
-        }
+        //        var result = await UserCollection.ReplaceOneAsync(filter, results);
+        //    }
+        //    return false;
+        //}
 
-        internal static async Task<bool> SaveConversationAsync(string fromName, string toId, string toName, string serviceUrl, string channelId, string conversationId)
-        {
-            if (channelId != StringResources.directline) // updating the time of already existing attribute
-            {
-                var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
-                ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
-                results.FromName = fromName;
-                results.ToId = toId;
-                results.ToName = toName;
-                results.ChannelId = channelId;
-                var x = await UserCollection.ReplaceOneAsync(filter, results);
-                return true;
-            }
-            return false;
-        }
+        //internal static async Task<bool> SaveConversationAsync(string fromName, string toId, string toName, string serviceUrl, string channelId, string conversationId)
+        //{
+        //    if (channelId != StringResources.directline) // updating the time of already existing attribute
+        //    {
+        //        var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
+        //        ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
+        //        results.FromName = fromName;
+        //        results.ToId = toId;
+        //        results.ToName = toName;
+        //        results.ChannelId = channelId;
+        //        var x = await UserCollection.ReplaceOneAsync(filter, results);
+        //        return true;
+        //    }
+        //    return false;
+        //}
         
         internal static async Task SaveCookieAsync(string userId, ConversationReference cookie)
         {
@@ -159,39 +159,39 @@ namespace NetHope.ProactiveMessage
             return results.conversationReference;
         }
 
-        internal async static Task EndConversation(string convoId) //sets conversation as finished in DB
-        {
-            var update = Builders<ConversationObject>.Update.Set("Status", false);
-            await UserCollection.FindOneAndUpdateAsync(x => x.ConversationId == convoId, update);
-        }
+        //internal async static Task EndConversation(string convoId) //sets conversation as finished in DB
+        //{
+        //    var update = Builders<ConversationObject>.Update.Set("Status", false);
+        //    await UserCollection.FindOneAndUpdateAsync(x => x.ConversationId == convoId, update);
+        //}
 
-        internal async static Task RestartConversation(string convoId)
-        {
-            var update = Builders<ConversationObject>.Update.Set("Status", true);
-            await UserCollection.FindOneAndUpdateAsync(x => x.ConversationId == convoId, update);
-        }
+        //internal async static Task RestartConversation(string convoId)
+        //{
+        //    var update = Builders<ConversationObject>.Update.Set("Status", true);
+        //    await UserCollection.FindOneAndUpdateAsync(x => x.ConversationId == convoId, update);
+        //}
 
-        internal static bool CheckConvoStatus(string convoId)
-        {
-            return UserCollection.Find(x => x.ConversationId == convoId).FirstOrDefault().Status;
-        }
+        //internal static bool CheckConvoStatus(string convoId)
+        //{
+        //    return UserCollection.Find(x => x.ConversationId == convoId).FirstOrDefault().Status;
+        //}
 
-        internal static DateTime GetLastMessage(string conversationId)
-        {
-            var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
-            ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
-            return results.Date != null ? results.Date : DateTime.Now.ToUniversalTime();
-        }
+        //internal static DateTime GetLastMessage(string conversationId)
+        //{
+        //    var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
+        //    ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
+        //    return results.Date != null ? results.Date : DateTime.Now.ToUniversalTime();
+        //}
 
         /* Keep track of the time since the last message the user sent*/
-        internal async static Task UpdateConvTime(string conversationId)
-        {
-            var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
-            ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
-            DateTime previousDate = results.Date;
-            results.Date = DateTime.Now.ToUniversalTime();
-            var result = await UserCollection.ReplaceOneAsync(filter, results);
-        }
+        //internal async static Task UpdateConvTime(string conversationId)
+        //{
+        //    var filter = Builders<ConversationObject>.Filter.Eq(s => s.ConversationId, conversationId);
+        //    ConversationObject results = UserCollection.Find(filter).FirstOrDefault();
+        //    DateTime previousDate = results.Date;
+        //    results.Date = DateTime.Now.ToUniversalTime();
+        //    var result = await UserCollection.ReplaceOneAsync(filter, results);
+        //}
 
         internal static async Task UpdateLastActive(string userId, DateTime date)
         {
@@ -201,10 +201,10 @@ namespace NetHope.ProactiveMessage
             await UserDataCollection.ReplaceOneAsync(filter, result);
         }
 
-        internal static bool CheckConvoExist(string conversationId)
-        {
-            return UserCollection.Find(x => x.ConversationId == conversationId).FirstOrDefault() == null;
-        }
+        //internal static bool CheckConvoExist(string conversationId)
+        //{
+        //    return UserCollection.Find(x => x.ConversationId == conversationId).FirstOrDefault() == null;
+        //}
 
         /* Method that takes the name of a collection as a parameter and returns a reference to that collection */
         public static IMongoCollection<T> GetReferenceToCollection<T>(string collectionName)
@@ -220,17 +220,18 @@ namespace NetHope.ProactiveMessage
             return _database.GetCollection<T>(collectionName);
         }
 
-        public static async Task DeleteUserData(string id)
+        public static async Task DeleteUserData(BsonObjectId id)
         {
             /* Delete the current user's data from the database */
-            UserDataCollection.FindOneAndDelete(x => x.User_id == id);
+
+            UserDataCollection.FindOneAndDelete(x => x._id == id);
         }
 
-        public static async Task DeleteConvoData(string conversation_id)
-        {
-            /* Delete data about the current conversation from the database */
-            UserCollection.FindOneAndDelete(x => x.ConversationId == conversation_id);
-        }
+        //public static async Task DeleteConvoData(string conversation_id)
+        //{
+        //    /* Delete data about the current conversation from the database */
+        //    UserCollection.FindOneAndDelete(x => x.ConversationId == conversation_id);
+        //}
         
         public static async Task SaveUserCourse(string user_id, UserCourse course)
         {
@@ -498,15 +499,6 @@ namespace NetHope.ProactiveMessage
             await UserDataCollection.FindOneAndUpdateAsync(x => x.User_id == id, update);
         }
 
-        public static async Task SaveSubjectPreferenceAdd(string subject, string id)
-        {
-            /* Add a user's preferred subject to the database */
-            List<string> subject_list = UserDataCollection.Find(x => x.User_id == id).First().PreferedSub;
-            subject_list.Add(subject);
-            var update = Builders<UserDataCollection>.Update.Set("PreferedSub", subject_list);
-            UserDataCollection.FindOneAndUpdate(x => x.User_id == id, update);
-        }
-
         public static async Task SaveNotification(long reminder, ObjectId id)
         {
             /* Update a user's notification frequency in the database */
@@ -554,10 +546,10 @@ namespace NetHope.ProactiveMessage
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
 
-        public static async Task UpdateFirstUsage(BsonObjectId userId)
+        public static async Task UpdateFirstUsage(BsonObjectId id)
         {
             var update = Builders<UserDataCollection>.Update.Set("firstUsage", false);
-            UserDataCollection.FindOneAndUpdate(x => x._id == userId, update);
+            UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
     }
 

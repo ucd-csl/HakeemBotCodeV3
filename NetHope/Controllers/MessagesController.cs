@@ -45,7 +45,7 @@ namespace NetHope.Controllers
 
                 if (!SaveConversationData.CheckUserExists(activity.From.Id))
                 {
-                    await SaveConversationData.SaveBasicConversationAsync(activity.From.Id, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id, true);
+                    //await SaveConversationData.SaveBasicConversationAsync(activity.From.Id, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id, true);
                     await Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new ConversationStarter(), displayException: false));
                 }  
                 //check if conversation is stale
@@ -129,9 +129,9 @@ namespace NetHope.Controllers
                 //handle using deleting bot from contacts
                 if (contactupdate.Action.Equals("remove"))
                 {
-                    await SaveConversationData.DeleteConvoData(message.From.Id);
+                    //await SaveConversationData.DeleteConvoData(message.From.Id);
                     //await SaveConversationData.DeleteSavedMessagesData(message.Conversation.Id);
-                    await SaveConversationData.DeleteUserData(message.From.Id);
+                    await SaveConversationData.DeleteUserData(ConversationStarter.user._id);
 
                 }
             }
@@ -143,7 +143,7 @@ namespace NetHope.Controllers
                 //await SaveConversationData.SaveConversationAsync(activity.From.Id, activity.From.Name, // feature to update the latest interaction from a user
                 //activity.Recipient.Id, activity.Recipient.Name, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id, true);
                 
-                await SaveConversationData.SaveBasicConversationAsync(activity.From.Id, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id, true);
+                //await SaveConversationData.SaveBasicConversationAsync(activity.From.Id, activity.ServiceUrl, activity.ChannelId, activity.Conversation.Id, true);
 
                 using (ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials(appID, appPassword)))
 
