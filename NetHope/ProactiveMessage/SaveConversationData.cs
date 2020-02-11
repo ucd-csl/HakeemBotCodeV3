@@ -65,9 +65,9 @@ namespace NetHope.ProactiveMessage
             }
         }
 
-        internal async static Task<UserDataCollection> GetUserDataCollection(string user_id)
+        internal async static Task<UserDataCollection> GetUserDataCollection(BsonObjectId _id)
         {
-            UserDataCollection user = UserDataCollection.Find(x => x.User_id == user_id).FirstAsync().Result;
+            UserDataCollection user = UserDataCollection.Find(x => x._id == _id).FirstAsync().Result;
             return user;
         }
 

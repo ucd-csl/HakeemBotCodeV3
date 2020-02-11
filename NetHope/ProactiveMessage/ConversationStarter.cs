@@ -33,6 +33,7 @@ namespace NetHope.ProactiveMessage
         private static string LuisEndpoint = ConfigurationManager.AppSettings.Get("LuisEndpoint") + StringResources.luisEndpointExtra;
         private static string PreferencesUrl = ConfigurationManager.AppSettings.Get("PreferencesUrl");
         public static UserDataCollection user = new UserDataCollection();
+
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(CheckUserExists);
@@ -65,10 +66,38 @@ namespace NetHope.ProactiveMessage
             }
             else
             {
-                user = await SaveConversationData.GetUserDataCollection(activity.From.Id);
-                string preferredLanguage = user.PreferedLang.Substring(0,2).ToLower();
-                await SaveConversationData.UpdateInputLanguage(user._id, preferredLanguage);
-                string name = user.Name;
+                user = await SaveConversationData.GetUserDataCollection(context.UserData.GetValue<ObjectId>("_id"));
+                
+                context.UserData.SetValue("_id", user._id);
+                context.UserData.SetValue("Name", user.Name);
+                context.UserData.SetValue("PreferredLang", user.PreferedLang );
+                context.UserData.SetValue("language", user.language );
+                context.UserData.SetValue("Notification", user.Notification);
+                context.UserData.SetValue("PastCourses", user.PastCourses);
+                context.UserData.SetValue("User_id", activity.From.Id );
+                context.UserData.SetValue("interests", user.interests);
+                context.UserData.SetValue("gender", user.gender);
+                context.UserData.SetValue("accreditation", user.accreditation);
+                context.UserData.SetValue("delivery", user.delivery);
+                context.UserData.SetValue("education", user.education);
+                context.UserData.SetValue("privacy_policy_version", user.privacy_policy_version);
+                context.UserData.SetValue("conversationReference", user.conversationReference);
+                context.UserData.SetValue("cookie", user.cookie);
+                context.UserData.SetValue("lastActive", user.lastActive);
+                context.UserData.SetValue("lastNotified", user.lastNotified);
+                context.UserData.SetValue("preferencesSet", user.preferencesSet);
+                context.UserData.SetValue("arabicText", user.arabicText);
+                context.UserData.SetValue("currentTopic", user.currentTopic);
+                context.UserData.SetValue("currentSubTopic", user.currentSubTopic);
+                context.UserData.SetValue("currentCourse", user.currentCourse);
+                context.UserData.SetValue("chosenCourse", user.chosenCourse);
+                context.UserData.SetValue("messageStack", user.messageStack);
+                context.UserData.SetValue("courseList", user.courseList);
+                context.UserData.SetValue("firstUsage", user.firstUsage);
+                
+                string preferredLanguage = context.UserData.GetValue<string>("PreferredLang").Substring(0,2).ToLower();
+                await SaveConversationData.UpdateInputLanguage(context.UserData.GetValue<ObjectId>("_id"), preferredLanguage);
+                string name = context.UserData.GetValue<string>("Name");
                 Debug.WriteLine(preferredLanguage + " " + name + " " + StringResources.ResourceManager.GetString($"{preferredLanguage}_HowAreYouName"));
                 await context.PostAsync(string.Format(StringResources.ResourceManager.GetString($"{preferredLanguage}_HowAreYouName"), name));
                 context.Wait(HowResponse);
