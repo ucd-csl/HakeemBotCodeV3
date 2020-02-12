@@ -32,9 +32,11 @@ namespace NetHope.Dialogs
              * Function to handle courses user has previously viewed.
              */
             Activity activity = await result as Activity;
-            UserCourse current_course = ConversationStarter.user.currentCourse;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang; 
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            UserCourse current_course = user.currentCourse;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang; 
 
             string checkUp = StringResources.ResourceManager.GetString($"{language}_CheckUp");
             string checkStarted = StringResources.ResourceManager.GetString($"{language}_CheckCourseStarted");
@@ -73,12 +75,11 @@ namespace NetHope.Dialogs
              * If answer is not 'yes' or 'no' LUIS is called
              */
             Activity activity = await result as Activity;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang; 
-            UserCourse current_course = ConversationStarter.user.currentCourse;
-            Debug.WriteLine("h0");
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang; 
+            UserCourse current_course = user.currentCourse;
             current_course.Queried = true;
-
 
             if (activity.Text.ToLower() == StringResources.en_Yes.ToLower() || activity.Text == StringResources.ar_Yes)
             {
@@ -108,7 +109,8 @@ namespace NetHope.Dialogs
                     ConversationStarter.user.PastCourses[i] = current_course;
                 }
             }
-            await SaveConversationData.UpdatePastCourses(ConversationStarter.user._id, ConversationStarter.user.PastCourses);
+            await SaveConversationData.UpdatePastCourses(user._id, user.PastCourses);
+            context.UserData.SetValue("UserObject", user);
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_NoteMade"));
             context.Done(true);
         }

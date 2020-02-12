@@ -65,9 +65,9 @@ namespace NetHope.ProactiveMessage
             }
         }
 
-        internal async static Task<UserDataCollection> GetUserDataCollection(BsonObjectId _id)
+        internal async static Task<UserDataCollection> GetUserDataCollection(string user_id)
         {
-            UserDataCollection user = UserDataCollection.Find(x => x._id == _id).FirstAsync().Result;
+            UserDataCollection user = UserDataCollection.Find(x => x.User_id == user_id).FirstAsync().Result;
             return user;
         }
 
@@ -233,13 +233,13 @@ namespace NetHope.ProactiveMessage
         //    UserCollection.FindOneAndDelete(x => x.ConversationId == conversation_id);
         //}
         
-        public static async Task SaveUserCourse(string user_id, UserCourse course)
+        public static async Task SaveUserCourse(BsonObjectId user_id, UserCourse course)
         {
-            UserDataCollection user = UserDataCollection.Find(x => x.User_id == user_id).FirstOrDefault();
+            UserDataCollection user = UserDataCollection.Find(x => x._id == user_id).FirstOrDefault();
             List<UserCourse> courses = user.PastCourses;
             courses.Add(course);
             var update = Builders<UserDataCollection>.Update.Set("PastCourses", courses);
-            UserDataCollection.FindOneAndUpdate(x => x.User_id == user_id, update);
+            UserDataCollection.FindOneAndUpdate(x => x._id == user_id, update);
         }
 
         public static string CourseToSubject(string course_name)

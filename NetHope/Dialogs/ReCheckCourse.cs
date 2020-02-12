@@ -32,9 +32,10 @@ namespace NetHope.Dialogs
              * Function to handle courses user has previously viewed.
              */
             Activity activity = await result as Activity;
-            UserCourse current_course = ConversationStarter.user.currentCourse;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            UserCourse current_course = user.currentCourse;
+            string language = user.PreferedLang;
             string checkUp = StringResources.ResourceManager.GetString($"{language}_ReCheck");
             string checkStarted = StringResources.ResourceManager.GetString($"{language}_StillTaking");
             string yes = StringResources.ResourceManager.GetString($"{language}_Yes");
@@ -64,20 +65,22 @@ namespace NetHope.Dialogs
         private async Task StillTakingCourse(IDialogContext context, IAwaitable<object> result)
         {
             Activity activity = await result as Activity;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            UserCourse current_course = ConversationStarter.user.currentCourse;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
+            UserCourse current_course = user.currentCourse;
             if (activity.Text.ToLower() == StringResources.en_Yes.ToLower() || activity.Text == StringResources.ar_Yes)
             {
                 current_course.Date = DateTime.UtcNow;
                 for (int i = 0; i < ConversationStarter.user.PastCourses.Count; i++)
                 {
-                    if (ConversationStarter.user.PastCourses[i].Name == current_course.Name)
+                    if (user.PastCourses[i].Name == current_course.Name)
                     {
-                        ConversationStarter.user.PastCourses[i] = current_course;
+                        user.PastCourses[i] = current_course;
                     }
                 }
-                await SaveConversationData.UpdatePastCourses(ConversationStarter.user._id, ConversationStarter.user.PastCourses);
+                await SaveConversationData.UpdatePastCourses(user._id, user.PastCourses);
+                context.UserData.SetValue("UserObject", user);
                 await context.PostAsync("Ok, I will check in again in a week");
                 context.Done(true);
             }
@@ -102,7 +105,8 @@ namespace NetHope.Dialogs
             {
                 if (language == StringResources.ar)
                 {
-                    ConversationStarter.user.arabicText = activity.Text.Trim();
+                    user.arabicText = activity.Text.Trim();
+                    context.UserData.SetValue("UserObject", user);
                     activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                 }
                 await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -112,10 +116,10 @@ namespace NetHope.Dialogs
         private async Task CourseStopped(IDialogContext context, IAwaitable<object> result)
         {
             Activity activity = await result as Activity;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            UserCourse current_course = ConversationStarter.user.currentCourse;
-            Debug.WriteLine("her0");
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
+            UserCourse current_course = user.currentCourse;
             
             if (activity.Text.ToLower() == StringResources.en_Yes.ToLower() || activity.Text == StringResources.ar_Yes)
             {
@@ -130,21 +134,23 @@ namespace NetHope.Dialogs
             {
                 if (language == StringResources.ar)
                 {
-                    ConversationStarter.user.arabicText = activity.Text.Trim();
+                    user.arabicText = activity.Text.Trim();
+                    context.UserData.SetValue("UserObject", user);
                     activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                 }
                 await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
 
             }
-            for (int i = 0; i < ConversationStarter.user.PastCourses.Count; i++)
+            for (int i = 0; i < user.PastCourses.Count; i++)
             {
-                if (ConversationStarter.user.PastCourses[i].Name == current_course.Name)
+                if (user.PastCourses[i].Name == current_course.Name)
                 {
-                    ConversationStarter.user.PastCourses[i] = current_course;
+                    user.PastCourses[i] = current_course;
+                    context.UserData.SetValue("UserObject", user);
                 }
             }
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_NoteMade"));
-            await SaveConversationData.UpdatePastCourses(ConversationStarter.user._id, ConversationStarter.user.PastCourses);
+            await SaveConversationData.UpdatePastCourses(user._id, user.PastCourses);
             context.Done(true);
         }
 

@@ -34,8 +34,9 @@ namespace NetHope.Dialogs
             /* Thanks the user for asking about Hakeem and asks how they are doing
              */
             Activity activity = await result as Activity;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            userLanguage = ConversationStarter.user.PreferedLang; 
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            userLanguage = user.PreferedLang; 
             
             string greetingResponse = StringResources.ResourceManager.GetString($"{userLanguage}_HowAreYouResponse");
             string howAreYou = StringResources.ResourceManager.GetString($"{userLanguage}_HowAreYou");
@@ -51,9 +52,10 @@ namespace NetHope.Dialogs
              * Switch statement is used to provide the appropriate response based on the users input
              */
             Activity activity = await result as Activity;
-            gender = ConversationStarter.user.gender;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            userLanguage = ConversationStarter.user.PreferedLang; 
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            gender = user.gender;
+            userLanguage = user.PreferedLang; 
 
             string endpoint_query = endpoint + activity.Text;
             string sentiment = "";

@@ -149,8 +149,9 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             string course = activity.Text;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
             if (course.ToLower() == StringResources.en_StartOver.ToLower() || course == StringResources.ar_StartOver)
             {
                 await context.Forward(new LearningDialog(), ResumeAfter, activity, CancellationToken.None);
@@ -164,14 +165,15 @@ namespace NetHope.Dialogs
                 {
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text.Trim();
+                        user.arabicText = activity.Text.Trim();
+                        context.UserData.SetValue("UserObject", user);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfter, activity, CancellationToken.None);
                 }
                 else
                 {
-                    string gender = ConversationStarter.user.gender;
+                    string gender = user.gender;
                     string courseName = language == StringResources.en ? course_by_name.courseName : course_by_name.courseNameArabic;
                     string takeCourse = StringResources.ResourceManager.GetString($"{language}_TakeCourse");
                     string startOver = StringResources.ResourceManager.GetString($"{language}_StartOver");
@@ -227,7 +229,8 @@ namespace NetHope.Dialogs
                     }
                     courseInfo += "\n\n" + StringResources.ResourceManager.GetString($"{language}_CourseDescription");
                     courseInfo += "\n\n" + course_by_name.description;
-                    ConversationStarter.user.chosenCourse = course_by_name;
+                    user.chosenCourse = course_by_name;
+                    context.UserData.SetValue("UserObject", user);
                     await context.PostAsync(courseInfo);
                     options.SuggestedActions = new SuggestedActions()
                     {
@@ -254,13 +257,14 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             string choice = activity.Text;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
             var reply = context.MakeMessage();
             var response = context.MakeMessage();
             if (choice.ToLower() == StringResources.en_TakeCourse.ToLower() || choice == StringResources.ar_TakeCourse)
             {
-                CourseList course = ConversationStarter.user.chosenCourse;
+                CourseList course = user.chosenCourse;
 
                 UserCourse user_course = new UserCourse()
                 {
@@ -273,7 +277,9 @@ namespace NetHope.Dialogs
                     Rating = 0,
                     Taken = false
                 };
-                await SaveConversationData.SaveUserCourse(activity.From.Id, user_course);
+                user.PastCourses.Add(user_course);
+                context.UserData.SetValue("UserObject", user);
+                await SaveConversationData.SaveUserCourse(user._id, user_course);
                 string courseName = language == StringResources.en ? course.courseName : course.courseNameArabic;
                 string startOver = StringResources.ResourceManager.GetString($"{language}_StartOver");
                 
@@ -304,7 +310,8 @@ namespace NetHope.Dialogs
             {
                 if (language == StringResources.ar)
                 {
-                    ConversationStarter.user.arabicText = choice;
+                    user.arabicText = choice;
+                    context.UserData.SetValue("UserObject", user);
                     activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                 }
                 await context.Forward(new LuisDialog(), ResumeAfter, choice, CancellationToken.None);

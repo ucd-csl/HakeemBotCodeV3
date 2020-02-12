@@ -41,12 +41,13 @@ namespace NetHope.Dialogs
              * If no recent courses to be queried Learning dialog is started by presenting topics button
              */
             Activity activity = await result as Activity;
-            ConversationStarter.user.messageStack = new Stack<string>();
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            user.messageStack = new Stack<string>();
             var response = context.MakeMessage();
-            List<UserCourse> courses = ConversationStarter.user.PastCourses;
+            List<UserCourse> courses = user.PastCourses;
             UserCourse current_course = new UserCourse();
             Random rnd = new Random();
-            int start = ConversationStarter.user.PastCourses.Count - 1;
+            int start = user.PastCourses.Count - 1;
             int random = 0;
             bool found = false;
             while (start >= 0)
@@ -64,15 +65,15 @@ namespace NetHope.Dialogs
                 if (!current_course.InProgress && !current_course.Taken && !current_course.Queried && diff.TotalDays >= 7)
                 {
                     found = true;
-                    ConversationStarter.user.currentCourse = current_course;
+                    user.currentCourse = current_course;
                 }
                 else if (current_course.InProgress && current_course.Taken && current_course.Queried && diff.TotalDays >= 7)
                 {
                     found = true;
-                    ConversationStarter.user.currentCourse = current_course;
+                    user.currentCourse = current_course;
                 }
             }
-            string language = ConversationStarter.user.PreferedLang;
+            string language = user.PreferedLang;
             if (found && !current_course.Taken)
             {
                 Debug.WriteLine("Found");
@@ -102,7 +103,8 @@ namespace NetHope.Dialogs
         public static async Task LetsLearn(IDialogContext context, IAwaitable<object> result)
         {
             var response = context.MakeMessage();
-            string language = ConversationStarter.user.PreferedLang;
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_LetsLearn"));
             response.Text = StringResources.ResourceManager.GetString($"{language}_RespondTopics");
             response.SuggestedActions = new SuggestedActions()
@@ -126,8 +128,9 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             var reply = context.MakeMessage();
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
             
             List<CardAction> childSuggestions = new List<CardAction>();
             if (activity.Text == StringResources.ar_Topics || activity.Text.ToLower() == StringResources.en_Topics.ToLower())
@@ -209,7 +212,8 @@ namespace NetHope.Dialogs
              * Function to display topics as suggested actions
              */
             var reply = context.MakeMessage();
-            string gender = ConversationStarter.user.gender;
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string gender = user.gender;
             List<CardAction> childSuggestions = new List<CardAction>();
             if (language == StringResources.ar)
             {
@@ -256,8 +260,9 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             string choice = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
 
             if (choice.ToLower() == StringResources.en_GoBack.ToLower() || choice.ToLower() == StringResources.en_Back || choice == StringResources.ar_GoBack)
             {
@@ -278,7 +283,8 @@ namespace NetHope.Dialogs
                 }
                 if (unique_subtopics.Count > 0)
                 {
-                    ConversationStarter.user.currentTopic = choice;
+                    user.currentTopic = choice;
+                    context.UserData.SetValue("UserObject", user);
                     await DisplaySubTopics(context, language, unique_subtopics);
                     context.Wait(FindCourses);
                 }
@@ -286,7 +292,7 @@ namespace NetHope.Dialogs
                 {
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text.Trim();
+                        user.arabicText = activity.Text.Trim();
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterLuisDialog, activity, CancellationToken.None);
@@ -300,10 +306,11 @@ namespace NetHope.Dialogs
              * Function to display subtopics as suggested actions
              */
             List<CardAction> childSuggestions = new List<CardAction>();
-            string gender = ConversationStarter.user.gender;
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string gender = user.gender;
             string goBack = StringResources.ResourceManager.GetString($"{language}_GoBack");
             var reply = context.MakeMessage();
-            var chosenTopic = ConversationStarter.user.currentTopic;
+            var chosenTopic = user.currentTopic;
             if (language == StringResources.ar)
             {
                 switch (gender)
@@ -335,8 +342,9 @@ namespace NetHope.Dialogs
         public static async Task FindCourses(IDialogContext context, IAwaitable<object> result)
         {
             Activity activity = await result as Activity;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
             string choice = activity.Text.ToLower().Trim();
             if (choice.ToLower() == StringResources.en_GoBack.ToLower() || choice.ToLower() == StringResources.en_Back || choice == StringResources.ar_GoBack)
             {
@@ -348,7 +356,8 @@ namespace NetHope.Dialogs
                 List <CourseList> course_by_sub = SaveConversationData.MatchCourseBySubTopic(choice, language);
                 if (course_by_sub.Count != 0)
                 {
-                    ConversationStarter.user.currentSubTopic = choice;
+                    user.currentSubTopic = choice;
+                    context.UserData.SetValue("UserObject", user);
                     List<dynamic> temp = FilterByPreferences(context, language, course_by_sub);
                     string removed = "";
                     if(temp[0].Count < course_by_sub.Count)
@@ -370,7 +379,8 @@ namespace NetHope.Dialogs
                     Debug.WriteLine(choice);
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text.Trim();
+                        user.arabicText = activity.Text.Trim();
+                        context.UserData.SetValue("UserObject", user);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterLuisDialog, activity, CancellationToken.None);
@@ -382,7 +392,8 @@ namespace NetHope.Dialogs
         {
             List<CardAction> childSuggestions = new List<CardAction>();
             var reply = context.MakeMessage();
-            string subject = Grammar.Capitalise(ConversationStarter.user.currentSubTopic);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string subject = Grammar.Capitalise(user.currentSubTopic);
             string goBack = StringResources.ResourceManager.GetString($"{language}_GoBack");
             if (removed == "")
             {
@@ -404,7 +415,7 @@ namespace NetHope.Dialogs
 
         public static List<dynamic> FilterByPreferences(IDialogContext context, string language, List<CourseList> courses)
         {
-            var cosmosID = ConversationStarter.user._id;
+            var cosmosID = context.UserData.GetValue<UserDataCollection>("UserObject")._id;
             UserDataCollection user = UserDataCollection.Find(x => x._id == cosmosID).FirstOrDefault();
             if(user.education == StringResources.en_LateHighSchool)
             {
@@ -529,11 +540,12 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             string choice;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang; 
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang; 
             if (activity.Text.ToLower() == StringResources.en_GoBack.ToLower() || activity.Text.ToLower() == StringResources.en_Back || activity.Text.Trim() == StringResources.ar_GoBack)
             {
-                choice = ConversationStarter.user.currentTopic;
+                choice = user.currentTopic;
                 List<dynamic> unique_subtopics;
                 if (language == StringResources.ar)
                 {
@@ -558,7 +570,8 @@ namespace NetHope.Dialogs
                 {
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text;
+                        user.arabicText = activity.Text;
+                        context.UserData.SetValue("UserObject", user);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterLuisDialog, activity, CancellationToken.None);
@@ -570,8 +583,9 @@ namespace NetHope.Dialogs
         public static async Task PresentCourses(IDialogContext context, CourseList course)
         {
             var options = context.MakeMessage();
-            string gender = ConversationStarter.user.gender; 
-            string language = ConversationStarter.user.PreferedLang;
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string gender = user.gender; 
+            string language = user.PreferedLang;
             string courseName = (language == StringResources.en ? course.courseName : course.courseNameArabic);
             string takeCourse = StringResources.ResourceManager.GetString($"{language}_TakeCourse");
             string goBack = StringResources.ResourceManager.GetString($"{language}_GoBack");
@@ -643,7 +657,8 @@ namespace NetHope.Dialogs
             courseInfo += "\n\n" + StringResources.ResourceManager.GetString($"{language}_CourseDescription");
             courseInfo += "\n\n";
             courseInfo += language == StringResources.ar ? course.descriptionArabic : course.description;
-            ConversationStarter.user.chosenCourse = course;
+            user.chosenCourse = course;
+            context.UserData.SetValue("UserObject", user);
             await context.PostAsync(courseInfo);
             options.Text = askTakeCourse;
             options.SuggestedActions = new SuggestedActions()
@@ -666,7 +681,8 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             string choice = activity.Text;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
             string language = ConversationStarter.user.PreferedLang; 
             var reply1 = context.MakeMessage();
             var reply = context.MakeMessage();
@@ -691,7 +707,7 @@ namespace NetHope.Dialogs
             }
             else if (choice.ToLower() == StringResources.en_TakeCourse.ToLower() || choice == StringResources.ar_TakeCourse)
             {
-                CourseList course = ConversationStarter.user.chosenCourse;
+                CourseList course = user.chosenCourse;
                 UserCourse user_course = new UserCourse()
                 {
                     Name = course.courseName,
@@ -706,18 +722,20 @@ namespace NetHope.Dialogs
                 List<CardAction> link = new List<CardAction>();
                 string courseName = language == StringResources.en ? course.courseName : course.courseNameArabic;
                 bool alreadyTaken = false;
-                for(int i = 0; i < ConversationStarter.user.PastCourses.Count; i++)
+                for(int i = 0; i < .user.PastCourses.Count; i++)
                 {
-                    if (ConversationStarter.user.PastCourses[i].Name == user_course.Name)
+                    if (user.PastCourses[i].Name == user_course.Name)
                     {
-                        ConversationStarter.user.PastCourses[i] = user_course;
+                        user.PastCourses[i] = user_course;
                         alreadyTaken = true;
-                        await SaveConversationData.UpdatePastCourses(ConversationStarter.user._id, ConversationStarter.user.PastCourses);
+                        context.UserData.SetValue("UserObject", user);
+                        await SaveConversationData.UpdatePastCourses(user._id, user.PastCourses);
                     }
                 }
                 if (!alreadyTaken)
                 {
-                    ConversationStarter.user.PastCourses.Add(user_course);
+                    user.PastCourses.Add(user_course);
+                    context.UserData.SetValue("UserObject", user);
                     await SaveConversationData.SaveUserCourse(activity.From.Id, user_course);
                 }
                 reply.Text = String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLink"), courseName);
@@ -742,7 +760,8 @@ namespace NetHope.Dialogs
             {
                 if (language == StringResources.ar)
                 {
-                    ConversationStarter.user.arabicText = activity.Text.Trim();
+                    user.arabicText = activity.Text.Trim();
+                    context.UserData.SetValue("UserObject", user);
                     activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                 }
                 await context.Forward(new LuisDialog(), ResumeAfterLuisDialog, activity, CancellationToken.None);
@@ -755,8 +774,9 @@ namespace NetHope.Dialogs
              * Function that takes input after user is presented with course and sends to LUIS
              */
             Activity activity = await result as Activity;
-            await ConversationStarter.CheckLanguage(activity.Text.Trim(), ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
+            await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
+            string language = user.PreferedLang;
             string text = activity.Text.Trim().ToLower();
             if (text == StringResources.en_StartOver || text == StringResources.ar_StartOver)
             {
@@ -766,7 +786,8 @@ namespace NetHope.Dialogs
             {
                 if (language == StringResources.ar)
                 {
-                    ConversationStarter.user.arabicText = activity.Text;
+                    user.arabicText = activity.Text;
+                    context.UserData.SetValue("UserObject", user);
                     activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                 }
                 await context.Forward(new LuisDialog(), ResumeAfterLuisDialog, activity, CancellationToken.None);

@@ -50,6 +50,7 @@ namespace NetHope.ProactiveMessage
             if (!SaveConversationData.CheckUserExists(activity.From.Id))
             {
                 user = new UserDataCollection();
+
                 await context.PostAsync(String.Format(StringResources.en_HakeemIntroduction + "{0}" + StringResources.ar_HakeemIntroduction, "\n\n"));
                 var response = context.MakeMessage();
                 response.Text = String.Format(StringResources.en_ChooseLanguage + "{0}" + StringResources.ar_ChooseLanguage, "\n\n");
@@ -66,38 +67,13 @@ namespace NetHope.ProactiveMessage
             }
             else
             {
-                user = await SaveConversationData.GetUserDataCollection(context.UserData.GetValue<ObjectId>("_id"));
+                user = await SaveConversationData.GetUserDataCollection(activity.From.Id);
+               
+                context.UserData.SetValue("UserObject", user);
                 
-                context.UserData.SetValue("_id", user._id);
-                context.UserData.SetValue("Name", user.Name);
-                context.UserData.SetValue("PreferredLang", user.PreferedLang );
-                context.UserData.SetValue("language", user.language );
-                context.UserData.SetValue("Notification", user.Notification);
-                context.UserData.SetValue("PastCourses", user.PastCourses);
-                context.UserData.SetValue("User_id", activity.From.Id );
-                context.UserData.SetValue("interests", user.interests);
-                context.UserData.SetValue("gender", user.gender);
-                context.UserData.SetValue("accreditation", user.accreditation);
-                context.UserData.SetValue("delivery", user.delivery);
-                context.UserData.SetValue("education", user.education);
-                context.UserData.SetValue("privacy_policy_version", user.privacy_policy_version);
-                context.UserData.SetValue("conversationReference", user.conversationReference);
-                context.UserData.SetValue("cookie", user.cookie);
-                context.UserData.SetValue("lastActive", user.lastActive);
-                context.UserData.SetValue("lastNotified", user.lastNotified);
-                context.UserData.SetValue("preferencesSet", user.preferencesSet);
-                context.UserData.SetValue("arabicText", user.arabicText);
-                context.UserData.SetValue("currentTopic", user.currentTopic);
-                context.UserData.SetValue("currentSubTopic", user.currentSubTopic);
-                context.UserData.SetValue("currentCourse", user.currentCourse);
-                context.UserData.SetValue("chosenCourse", user.chosenCourse);
-                context.UserData.SetValue("messageStack", user.messageStack);
-                context.UserData.SetValue("courseList", user.courseList);
-                context.UserData.SetValue("firstUsage", user.firstUsage);
-                
-                string preferredLanguage = context.UserData.GetValue<string>("PreferredLang").Substring(0,2).ToLower();
+                string preferredLanguage = context.UserData.GetValue<UserDataCollection>("UserObject").PreferedLang.Substring(0,2).ToLower();
                 await SaveConversationData.UpdateInputLanguage(context.UserData.GetValue<ObjectId>("_id"), preferredLanguage);
-                string name = context.UserData.GetValue<string>("Name");
+                string name = context.UserData.GetValue<UserDataCollection>("UserObject").Name;
                 Debug.WriteLine(preferredLanguage + " " + name + " " + StringResources.ResourceManager.GetString($"{preferredLanguage}_HowAreYouName"));
                 await context.PostAsync(string.Format(StringResources.ResourceManager.GetString($"{preferredLanguage}_HowAreYouName"), name));
                 context.Wait(HowResponse);
@@ -116,30 +92,30 @@ namespace NetHope.ProactiveMessage
             switch (activity.Text.Trim().ToLower())
             {
                 case "arabic":
-                    user.PreferedLang = StringResources.ar;
+                    context.UserData.SetValue("PreferedLang",StringResources.ar);
                     await context.PostAsync(StringResources.ar_Language_Selected);
                     break;
                 case "عربي":
-                    user.PreferedLang = StringResources.ar;
+                    context.UserData.SetValue("PreferedLang", StringResources.ar);
                     await context.PostAsync(StringResources.ar_Language_Selected);
                     break;
                 case "english":
-                    user.PreferedLang = StringResources.en;
+                    context.UserData.SetValue("PreferedLang", StringResources.en);
                     await context.PostAsync(StringResources.en_Language_Selected);
                     break;
                 case "الإنجليزية":
-                    user.PreferedLang = StringResources.en;
+                    context.UserData.SetValue("PreferedLang", StringResources.en);
                     await context.PostAsync(StringResources.en_Language_Selected);
                     break;
                 default:
                     if (language == StringResources.en)
                     {
-                        user.PreferedLang = StringResources.en;
+                        context.UserData.SetValue("PreferedLang", StringResources.en);
                         await context.PostAsync(StringResources.en_UsingEnglish);
                     }
                     else if (language == StringResources.ar)
                     {
-                        user.PreferedLang = StringResources.ar;
+                        context.UserData.SetValue("PreferedLang", StringResources.ar);
                         await context.PostAsync(StringResources.ar_UsingArabic);
                     }
                     else
@@ -176,14 +152,17 @@ namespace NetHope.ProactiveMessage
             };
             await SaveConversationData.SaveNewUser(activity.From.Id, name, language, reference);
             user = await SaveConversationData.GetUserDataCollection(activity.From.Id);
-            //UserDataCollection.Find(x => x.User_id == activity.From.Id && x.Name.ToLower() == name.ToLower()).FirstOrDefault();
-
+      
             await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_NiceToMeetYou"), name)+ "\U0001F642 ");
             user = await SendUserForm(context, user._id);
+
+            context.UserData.SetValue("UserObject", user);
+
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_ThanksForInfo"));
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_WeeklyNotifications"), name);
             await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_HowAreYouName"), name));
-            user.firstUsage = true; 
+            user.firstUsage = true;
+            context.UserData.SetValue("firstUsage", true);
             context.Wait(HowResponse);
         }
         
@@ -194,72 +173,66 @@ namespace NetHope.ProactiveMessage
              */
             Activity activity = await result as Activity;
             string language = "";
-            //string inputLang = await Translate.Detect(activity.Text);
-            //if (inputLang != user.PreferedLang)
-            //{
-            //    activity.Text = inputLang == StringResources.ar ? StringResources.en_UseArabic : StringResources.en_UseEnglish;
-            //    Debug.WriteLine(activity.Text);
-            //    await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
-            //}
-            //else
-            //{
-                await CheckLanguage(activity.Text.Trim(), user._id);
-                language = user.PreferedLang;
-                string gender = user.gender.ToLower();
-                string query = activity.Text.Trim();
-                if (language == StringResources.ar)
+            
+            await CheckLanguage(activity.Text.Trim(), user._id);
+            language = user.PreferedLang;
+            string gender = user.gender.ToLower();
+            string query = activity.Text.Trim();
+            if (language == StringResources.ar)
+            {
+                await Translate.Translator(query, StringResources.en);
+            };
+            string endpoint_query = LuisEndpoint + query;
+            string sentiment = "";
+            using (WebClient client = new WebClient())
+            {
+                string response = client.DownloadString(endpoint_query);
+                QueryResponse output = new QueryResponse(response);
+                sentiment = output.sentimentAnalysis.sentiment;
+            }
+            Debug.WriteLine(sentiment);
+            if (sentiment == StringResources.en_Positive)
+            {
+                await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_PositiveSentiment"));
+            }
+            else if (sentiment == StringResources.en_Negative && language == StringResources.ar)
+            {
+                switch (gender)
                 {
-                    await Translate.Translator(query, StringResources.en);
-                };
-                string endpoint_query = LuisEndpoint + query;
-                string sentiment = "";
-                using (WebClient client = new WebClient())
-                {
-                    string response = client.DownloadString(endpoint_query);
-                    QueryResponse output = new QueryResponse(response);
-                    sentiment = output.sentimentAnalysis.sentiment;
+                    case "female":
+                        await context.PostAsync(StringResources.ar_NegativeSentimentFemale);
+                        break;
+                    case "male":
+                        await context.PostAsync(StringResources.ar_NegativeSentimentMale);
+                        break;
+                    default:
+                        await context.PostAsync(StringResources.ar_NegativeSentimentDefault);
+                        break;
                 }
-                Debug.WriteLine(sentiment);
-                if (sentiment == StringResources.en_Positive)
-                {
-                    await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_PositiveSentiment"));
-                }
-                else if (sentiment == StringResources.en_Negative && language == StringResources.ar)
-                {
-                    switch (gender)
-                    {
-                        case "female":
-                            await context.PostAsync(StringResources.ar_NegativeSentimentFemale);
-                            break;
-                        case "male":
-                            await context.PostAsync(StringResources.ar_NegativeSentimentMale);
-                            break;
-                        default:
-                            await context.PostAsync(StringResources.ar_NegativeSentimentDefault);
-                            break;
-                    }
-                }
-                else if (sentiment == StringResources.en_Negative)
-                {
-                    await context.PostAsync(StringResources.en_NegativeSentiment);
-                }
-                if (user.GetType().GetProperty("firstUsage") == null)
-                {
-                    await SaveConversationData.UpdateFirstUsage(user._id);
-                    user.firstUsage = false;
-                    await context.Forward(new LearningDialog(), ResumeAfterKill, activity, CancellationToken.None);
-                }
-                else if (user.firstUsage)
-                {
-                    await SaveConversationData.UpdateFirstUsage(user._id);
-                    user.firstUsage = false;
-                    await context.Forward(new CommandDialog(), ResumeAfterKill, activity, CancellationToken.None);
-                }
-                else
-                {
-                    await context.Forward(new LearningDialog(), ResumeAfterKill, activity, CancellationToken.None);
-                }
-            //}
+            }
+            else if (sentiment == StringResources.en_Negative)
+            {
+                await context.PostAsync(StringResources.en_NegativeSentiment);
+            }
+            if (user.GetType().GetProperty("firstUsage") == null)
+            {
+                await SaveConversationData.UpdateFirstUsage(user._id);
+                user.firstUsage = false;
+                context.UserData.SetValue("UserObject", user);
+                await context.Forward(new LearningDialog(), ResumeAfterKill, activity, CancellationToken.None);
+            }
+            else if (user.firstUsage)
+            {
+                await SaveConversationData.UpdateFirstUsage(user._id);
+                user.firstUsage = false;
+                context.UserData.SetValue("UserObject", user);
+                await context.Forward(new CommandDialog(), ResumeAfterKill, activity, CancellationToken.None);
+            }
+            else
+            {
+                context.UserData.SetValue("UserObject", user);
+                await context.Forward(new LearningDialog(), ResumeAfterKill, activity, CancellationToken.None);
+            }
         }
 
         private static async Task ResumeAfterKill(IDialogContext context, IAwaitable<object> result)
@@ -316,14 +289,16 @@ namespace NetHope.ProactiveMessage
             return user2;
         }
 
-        public static async Task CheckLanguage(string input, BsonObjectId userId)
+        public static async Task CheckLanguage(string input, IDialogContext context)
         {
             string inputLang = await Translate.Detect(input);
+            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
             if (inputLang != user.PreferedLang)
             {
                 if (inputLang == "fa") inputLang = StringResources.ar;
-                await SaveConversationData.UpdateInputLanguage(userId, inputLang);
+                await SaveConversationData.UpdateInputLanguage(user._id, inputLang);
                 user.PreferedLang = inputLang;
+                context.UserData.SetValue("UserObject", user);
             }
         }
 
