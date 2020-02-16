@@ -34,8 +34,8 @@ namespace NetHope.Dialogs
              * My Preferences button is hidden at Dan's request for now
              */
             var activity = await result as Activity;
-            gender = ConversationStarter.user.gender;
-            language = ConversationStarter.user.PreferedLang; 
+            gender = context.UserData.GetValue<string>("gender");
+            language = context.UserData.GetValue<string>("PreferedLang");
 
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_SwitchBetweenLanguages"));
             var selectOption = context.MakeMessage();
@@ -84,8 +84,8 @@ namespace NetHope.Dialogs
              * Continue starts the learning Dialog
              */
             Activity activity = await result as Activity;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             string text = activity.Text.Trim().ToLower();
-            Debug.WriteLine(text);
             switch (text)
             {
                 case "commands":
@@ -117,7 +117,8 @@ namespace NetHope.Dialogs
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, activity.Text.Trim());
+                        context.UserData.SetValue("arabicText", activity.Text.Trim());
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);

@@ -67,7 +67,7 @@ namespace NetHope.ProactiveMessage
 
         internal async static Task<UserDataCollection> GetUserDataCollection(string user_id)
         {
-            UserDataCollection user = UserDataCollection.Find(x => x.User_id == user_id).FirstAsync().Result;
+            UserDataCollection user = UserDataCollection.Find(x => x.User_id == user_id).FirstOrDefaultAsync().Result;
             return user;
         }
 
@@ -85,7 +85,6 @@ namespace NetHope.ProactiveMessage
 
         internal static async Task UpdateInputLanguage(BsonObjectId id, string language)
         {
-            Debug.WriteLine(language);
             var update = Builders<UserDataCollection>.Update.Set("PreferedLang", language);
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
@@ -413,14 +412,7 @@ namespace NetHope.ProactiveMessage
         {
             /* Check for the user's Skype ID in the database */
             List<UserDataCollection> results = UserDataCollection.Find(x => x.User_id == user_id).ToList();
-            if (results.Count >= 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return results.Count >= 1;
         }
 
         public static CourseList GetCourseByName(string name)
@@ -468,10 +460,9 @@ namespace NetHope.ProactiveMessage
         {
             var update = Builders<UserDataCollection>.Update.Set("PastCourses", courses);
             UserDataCollection.FindOneAndUpdate(x => x._id == user_id, update);
-            Debug.WriteLine("hi");
         }
 
-        public static async Task SaveLanguagePreference(string language, ObjectId id)
+        public static async Task SaveLanguagePreference(string language, BsonObjectId id)
         {
             /* Update a user's preferred learning language in the database */
 
@@ -499,14 +490,14 @@ namespace NetHope.ProactiveMessage
             await UserDataCollection.FindOneAndUpdateAsync(x => x.User_id == id, update);
         }
 
-        public static async Task SaveNotification(long reminder, ObjectId id)
+        public static async Task SaveNotification(long reminder, BsonObjectId id)
         {
             /* Update a user's notification frequency in the database */
             var update = Builders<UserDataCollection>.Update.Set("Notification", reminder);
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
 
-        public static async Task SaveGenderPreference(string gender, ObjectId id)
+        public static async Task SaveGenderPreference(string gender, BsonObjectId id)
         {
             /* Update a user's preferred gender in the database */
             gender = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(gender);
@@ -514,7 +505,7 @@ namespace NetHope.ProactiveMessage
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
 
-        public static async Task SaveAccreditationPreference(string accreditation, ObjectId id)
+        public static async Task SaveAccreditationPreference(string accreditation, BsonObjectId id)
         {
             /* Update a user's preferred accreditation setting in the database */
             accreditation = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accreditation);
@@ -522,7 +513,7 @@ namespace NetHope.ProactiveMessage
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
 
-        public static async Task SaveDeliveryPreference(string delivery, ObjectId id)
+        public static async Task SaveDeliveryPreference(string delivery, BsonObjectId id)
         {
             /* Update a user's preferred accreditation setting in the database */
             delivery = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(delivery);
@@ -530,7 +521,7 @@ namespace NetHope.ProactiveMessage
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
 
-        public static async Task SaveEducationPreference(string education, ObjectId id)
+        public static async Task SaveEducationPreference(string education, BsonObjectId id)
         {
             /* Update a user's preferred accreditation setting in the database */
             education = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(education);
@@ -538,7 +529,7 @@ namespace NetHope.ProactiveMessage
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
 
-        public static async Task UpdateUserName(string name, ObjectId id)
+        public static async Task UpdateUserName(string name, BsonObjectId id)
         {
             /* Update a user's name in the database */
             name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
@@ -549,6 +540,30 @@ namespace NetHope.ProactiveMessage
         public static async Task UpdateFirstUsage(BsonObjectId id)
         {
             var update = Builders<UserDataCollection>.Update.Set("firstUsage", false);
+            UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
+        }
+
+        public static async Task UpdateArabicText(BsonObjectId id, string text)
+        {
+            var update = Builders<UserDataCollection>.Update.Set("arabicText", text);
+            UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
+        }
+
+        public static async Task UpdateChosenCourse(BsonObjectId id, CourseList course)
+        {
+            var update = Builders<UserDataCollection>.Update.Set("chosenCourse", course);
+            UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
+        }
+
+        public static async Task UpdateCurrentTopic(BsonObjectId id, string text)
+        {
+            var update = Builders<UserDataCollection>.Update.Set("currentTopic", text);
+            UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
+        }
+
+        public static async Task UpdateCurrentSubTopic(BsonObjectId id, string text)
+        {
+            var update = Builders<UserDataCollection>.Update.Set("currentSubTopic", text);
             UserDataCollection.FindOneAndUpdate(x => x._id == id, update);
         }
     }

@@ -114,9 +114,9 @@ namespace NetHope.Preferences
             Activity activity = await result as Activity;
             Dictionary<string, string> options = new Dictionary<string, string>();
             var reply = context.MakeMessage();
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string gender = user.gender;
-            string sessionLanguage = user.PreferedLang;
+            
+            string gender = context.UserData.GetValue<string>("gender");
+            string sessionLanguage = context.UserData.GetValue<string>("PreferedLang");
             string editConvLang = StringResources.ResourceManager.GetString($"{sessionLanguage}_EditConversationLang");
             string editDeliveryLang1 = StringResources.ResourceManager.GetString($"{sessionLanguage}_EditDeliveryLang1");
             string editDeliveryLang2 = StringResources.ResourceManager.GetString($"{sessionLanguage}_EditDeliveryLang2");
@@ -186,8 +186,9 @@ namespace NetHope.Preferences
              * If none of these options are chosen then we use LUIS to determine the next course of action */
             Activity activity = await result as Activity;
             await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId iD = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
+            UserDataCollection user = UserDataCollection.Find(x => x._id == iD).FirstOrDefault();
             Dictionary<string, string> options = new Dictionary<string, string>();
             
             List<string> interests = user.interests;
@@ -343,8 +344,9 @@ namespace NetHope.Preferences
                     /* If none of the options provided are chosen we use LUIS to see what the user wants to do */
                     if (language == StringResources.ar)
                     {
-                        user.arabicText = activity.Text.Trim();
-                        context.UserData.SetValue("UserObject", user);
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(iD, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -694,12 +696,11 @@ namespace NetHope.Preferences
              * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
 
             Activity activity = await result as Activity;
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
             Regex regex_ar = new Regex(@"^[\u0621-\u064A\u0660-\u0669 ]+$");
             Regex regex = new Regex(@"^\d+$");
             string text = activity.Text.Trim();
-            var cosmosID = user._id;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -717,29 +718,25 @@ namespace NetHope.Preferences
                 case "turn off":
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_NotificationsDisabled"));
                     await SaveConversationData.SaveNotification(0, cosmosID);
-                    user.Notification = 0;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("Notifcation", 0);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "إيقاف تشغيل":
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_NotificationsDisabled"));
                     await SaveConversationData.SaveNotification(0, cosmosID);
-                    user.Notification = 0;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("Notifcation", 0);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "turn on":
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DefaultNotifications"));
                     await SaveConversationData.SaveNotification(7, cosmosID);
-                    user.Notification = 7;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("Notifcation", 7);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "شغله":
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DefaultNotifications"));
                     await SaveConversationData.SaveNotification(7, cosmosID);
-                    user.Notification = 7;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("Notifcation", 7);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
@@ -749,8 +746,7 @@ namespace NetHope.Preferences
                         {
                             long reminder = Convert.ToInt32(await Translate.Translator(activity.Text, StringResources.en));
                             await SaveConversationData.SaveNotification(reminder, cosmosID);
-                            user.Notification = Convert.ToInt32(reminder);
-                            context.UserData.SetValue("UserObject", user);
+                            context.UserData.SetValue("Notifcation", Convert.ToInt32(reminder));
                             await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_SpecifiedNotifications"), text));
                             await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                         }
@@ -763,8 +759,9 @@ namespace NetHope.Preferences
                     {
                         if (language == StringResources.ar)
                         {
-                            user.arabicText = text;
-                            context.UserData.SetValue("UserObject", user);
+                            string arabic = activity.Text.Trim();
+                            await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                            context.UserData.SetValue("arabicText", arabic);
                             activity.Text = await Translate.Translator(text, StringResources.en);
                         }
                         await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -780,8 +777,8 @@ namespace NetHope.Preferences
             var activity = await result as Activity;
             string text = activity.Text.Trim();
             await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -798,37 +795,34 @@ namespace NetHope.Preferences
                     break;
                 case "arabic":
                     await context.PostAsync(StringResources.ar_Language_Selected);
-                    user.PreferedLang = StringResources.ar;
-                    context.UserData.SetValue("UserObject", user);
-                    await SaveConversationData.UpdateInputLanguage(user._id, StringResources.ar);
+                    context.UserData.SetValue("PreferedLang", StringResources.ar);
+                    await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.ar);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "عربى":
                     await context.PostAsync(StringResources.ar_Language_Selected);
-                    user.PreferedLang = StringResources.ar;
-                    context.UserData.SetValue("UserObject", user);
-                    await SaveConversationData.UpdateInputLanguage(user._id, StringResources.ar);
+                    context.UserData.SetValue("PreferedLang", StringResources.ar);
+                    await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.ar);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "english":
                     await context.PostAsync(StringResources.en_Language_Selected);
-                    user.PreferedLang = StringResources.en;
-                    context.UserData.SetValue("UserObject", user);
-                    await SaveConversationData.UpdateInputLanguage(user._id, StringResources.en);
+                    context.UserData.SetValue("PreferedLang", StringResources.en);
+                    await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.en);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "إنجليزي":
                     await context.PostAsync(StringResources.en_Language_Selected);
-                    ConversationStarter.user.PreferedLang = StringResources.en;
-                    context.UserData.SetValue("UserObject", user);
-                    await SaveConversationData.UpdateInputLanguage(user._id, StringResources.en);
+                    context.UserData.SetValue("PreferedLang", StringResources.en);
+                    await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.en);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        user.arabicText = activity.Text;
-                        context.UserData.SetValue("UserObject", user);
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -843,10 +837,9 @@ namespace NetHope.Preferences
             var activity = await result as Activity;
             string text = activity.Text.Trim();
             await ConversationStarter.CheckLanguage(text, context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
             string inputLang = await Translate.Detect(activity.Text);
-            var cosmosID = user._id;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -864,47 +857,45 @@ namespace NetHope.Preferences
                 case "english":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLanguageConfirm"), text.ToLower()));
                     await SaveConversationData.SaveLanguagePreference(text, cosmosID);
-                    user.language = text;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("language", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "arabic":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLanguageConfirm"), text.ToLower()));
                     await SaveConversationData.SaveLanguagePreference(text, cosmosID);
-                    user.language = text;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("language", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "both":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLanguageConfirm"), text.ToLower()));
                     await SaveConversationData.SaveLanguagePreference(text, cosmosID);
-                    user.language = text;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("language", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "إنجليزي":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLanguageConfirm"), text.ToLower()));
                     await SaveConversationData.SaveLanguagePreference(StringResources.en_English, cosmosID);
-                    user.language = StringResources.en_English;
-                    context.UserData.SetValue("UserObject", user);
+                    context.UserData.SetValue("language", StringResources.en_English);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "عربي":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLanguageConfirm"), text.ToLower()));
                     await SaveConversationData.SaveLanguagePreference(StringResources.en_Arabic, cosmosID);
-                    ConversationStarter.user.language = StringResources.en_Arabic;
+                    context.UserData.SetValue("language", StringResources.en_Arabic);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "كلاهما":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseLanguageConfirm"), text.ToLower()));
                     await SaveConversationData.SaveLanguagePreference(StringResources.en_Both, cosmosID);
-                    ConversationStarter.user.language = StringResources.en_Both;
+                    context.UserData.SetValue("language", StringResources.en_Both);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -918,9 +909,9 @@ namespace NetHope.Preferences
              * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text, context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -937,44 +928,46 @@ namespace NetHope.Preferences
                     break;
                 case "male":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_GenderUpdated"), text));
-                    ConversationStarter.user.gender = text;
+                    context.UserData.SetValue("gender", text);
                     await SaveConversationData.SaveGenderPreference(text, cosmosID);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "female":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_GenderUpdated"), text));
-                    ConversationStarter.user.gender = text;
+                    context.UserData.SetValue("gender", text);
                     await SaveConversationData.SaveGenderPreference(text, cosmosID);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "prefer not to say":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_GenderUpdated"), text));
-                    ConversationStarter.user.gender = text;
+                    context.UserData.SetValue("gender", text);
                     await SaveConversationData.SaveGenderPreference(text, cosmosID);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "ذكر":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_GenderUpdated"), text));
-                    ConversationStarter.user.gender = StringResources.en_Male;
+                    context.UserData.SetValue("gender", StringResources.en_Male);
                     await SaveConversationData.SaveGenderPreference(StringResources.en_Male, cosmosID);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "أنثى":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_GenderUpdated"), text));
-                    ConversationStarter.user.gender = StringResources.en_Female;
+                    context.UserData.SetValue("gender", StringResources.en_Female);
                     await SaveConversationData.SaveGenderPreference(StringResources.en_Female, cosmosID);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "افضل عدم القول":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_GenderUpdated"), text));
-                    ConversationStarter.user.gender = StringResources.en_PreferNotToSay;
+                    context.UserData.SetValue("gender", StringResources.en_PreferNotToSay);
                     await SaveConversationData.SaveGenderPreference(StringResources.en_PreferNotToSay, cosmosID);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -988,9 +981,9 @@ namespace NetHope.Preferences
              * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text, context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -1008,43 +1001,45 @@ namespace NetHope.Preferences
                 case "accredited":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_AccreditationUpdated"), text));
                     await SaveConversationData.SaveAccreditationPreference(text, cosmosID);
-                    ConversationStarter.user.accreditation = text;
+                    context.UserData.SetValue("accreditation", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "معتمدة":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_AccreditationUpdated"), text));
                     await SaveConversationData.SaveAccreditationPreference(StringResources.en_Accredited, cosmosID);
-                    ConversationStarter.user.accreditation = StringResources.en_Accredited;
+                    context.UserData.SetValue("accreditation", StringResources.en_Accredited);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "non-accredited":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_AccreditationUpdated"), text));
                     await SaveConversationData.SaveAccreditationPreference(text, cosmosID);
-                    ConversationStarter.user.accreditation = text;
+                    context.UserData.SetValue("accreditation", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "غير معتمدة":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_AccreditationUpdated"), text));
                     await SaveConversationData.SaveAccreditationPreference(StringResources.en_NonAccredited, cosmosID);
-                    ConversationStarter.user.accreditation = StringResources.en_NonAccredited;
+                    context.UserData.SetValue("accreditation", StringResources.en_NonAccredited);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "either":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_AccreditationUpdated"), text));
                     await SaveConversationData.SaveAccreditationPreference(text, cosmosID);
-                    ConversationStarter.user.accreditation = text;
+                    context.UserData.SetValue("accreditation", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "كلاهما":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_AccreditationUpdated"), text));
                     await SaveConversationData.SaveAccreditationPreference(StringResources.en_Either, cosmosID);
-                    ConversationStarter.user.accreditation = StringResources.en_Either;
+                    context.UserData.SetValue("accreditation", StringResources.en_Either);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -1058,9 +1053,9 @@ namespace NetHope.Preferences
          * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text, context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -1078,43 +1073,45 @@ namespace NetHope.Preferences
                 case "self-paced":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseDeliveryUpdated"), text));
                     await SaveConversationData.SaveDeliveryPreference(text, cosmosID);
-                    ConversationStarter.user.delivery = text;
+                    context.UserData.SetValue("delivery", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "السرعة الذاتية":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseDeliveryUpdated"), text));
                     await SaveConversationData.SaveDeliveryPreference(StringResources.en_Self_Paced, cosmosID);
-                    ConversationStarter.user.delivery = StringResources.en_Self_Paced;
+                    context.UserData.SetValue("delivery", StringResources.en_Self_Paced);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "interval":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseDeliveryUpdated"), text));
                     await SaveConversationData.SaveDeliveryPreference(text, cosmosID);
-                    ConversationStarter.user.delivery = text;
+                    context.UserData.SetValue("delivery", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "فترات منتظمة":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseDeliveryUpdated"), text));
                     await SaveConversationData.SaveDeliveryPreference(StringResources.en_Interval, cosmosID);
-                    ConversationStarter.user.delivery = StringResources.en_Interval;
+                    context.UserData.SetValue("delivery", StringResources.en_Interval);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "either":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseDeliveryUpdated"), text));
                     await SaveConversationData.SaveDeliveryPreference(text, cosmosID);
-                    ConversationStarter.user.delivery = text;
+                    context.UserData.SetValue("delivery", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "كلاهما":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_CourseDeliveryUpdated"), text));
                     await SaveConversationData.SaveDeliveryPreference(StringResources.en_Either, cosmosID);
-                    ConversationStarter.user.delivery = StringResources.en_Either;
+                    context.UserData.SetValue("delivery", StringResources.en_Either);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -1128,9 +1125,9 @@ namespace NetHope.Preferences
             * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text, context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -1148,55 +1145,57 @@ namespace NetHope.Preferences
                 case "primary school":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(text, cosmosID);
-                    ConversationStarter.user.education = text;
+                    context.UserData.SetValue("education", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "التعليم الابتدائي":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(StringResources.en_PrimarySchool, cosmosID);
-                    ConversationStarter.user.education = StringResources.en_PrimarySchool;
+                    context.UserData.SetValue("education", StringResources.en_PrimarySchool);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "early high school":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(text, cosmosID);
-                    ConversationStarter.user.education = text;
+                    context.UserData.SetValue("education", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "بداية المرحلة الثانوية":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(StringResources.en_EarlyHighSchool, cosmosID);
-                    ConversationStarter.user.education = StringResources.en_EarlyHighSchool;
+                    context.UserData.SetValue("education", StringResources.en_EarlyHighSchool);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "late high school":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(text, cosmosID);
-                    ConversationStarter.user.education = text;
+                    context.UserData.SetValue("education", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "نهاية المرحلة الثانوية":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(StringResources.en_LateHighSchool, cosmosID);
-                    ConversationStarter.user.education = StringResources.en_LateHighSchool;
+                    context.UserData.SetValue("education", StringResources.en_LateHighSchool);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "university":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(text, cosmosID);
-                    ConversationStarter.user.education = text;
+                    context.UserData.SetValue("education", text);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 case "الجامعة":
                     await context.PostAsync(String.Format(StringResources.ResourceManager.GetString($"{language}_EducationUpdated"), text));
                     await SaveConversationData.SaveEducationPreference(StringResources.en_University, cosmosID);
-                    ConversationStarter.user.education = StringResources.en_University;
+                    context.UserData.SetValue("education", StringResources.en_University);
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -1210,9 +1209,9 @@ namespace NetHope.Preferences
             * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text, context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -1229,22 +1228,24 @@ namespace NetHope.Preferences
                     break;
                 case "delete data":
                     //await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
-                    ConversationStarter.user = new UserDataCollection();
                     await SaveConversationData.DeleteUserData(cosmosID);
+                    await ConversationStarter.MapUserToContext(new UserDataCollection(), context);
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DataDeleted"));
                     await context.Forward(new ConversationStarter(), null, activity, CancellationToken.None);
                     break;
                 case "حذف البيانات":
                     //await SaveConversationData.DeleteConvoData(activity.Conversation.Id);
                     await SaveConversationData.DeleteUserData(cosmosID);
-                    ConversationStarter.user = new UserDataCollection();
+                    await ConversationStarter.MapUserToContext(new UserDataCollection(), context);
                     await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DataDeleted"));
                     await context.Forward(new ConversationStarter(), null, activity, CancellationToken.None);
                     break;
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -1258,9 +1259,9 @@ namespace NetHope.Preferences
              * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text,context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             switch (text.ToLower())
             {
                 case "go back":
@@ -1288,7 +1289,9 @@ namespace NetHope.Preferences
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -1296,11 +1299,12 @@ namespace NetHope.Preferences
             }
         }
 
-        private async Task ChangeInterests(IDialogContext context, ObjectId iD)
+        private async Task ChangeInterests(IDialogContext context, BsonObjectId iD)
         {
             /* Allows a user to change their interests
              * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
-            string language = ConversationStarter.user.PreferedLang;
+
+            string language = context.UserData.GetValue<string>("PreferedLang");
             var link = context.MakeMessage();
             link.Text=StringResources.ResourceManager.GetString($"{language}_ChangeInterests");
             UserDataCollection user2 = UserDataCollection.Find(x => x._id == iD).FirstOrDefault();
@@ -1337,7 +1341,7 @@ namespace NetHope.Preferences
                     await context.Forward(new ConversationStarter(), ResumeAfterKill, context.Activity, CancellationToken.None);
                 }
             }
-            ConversationStarter.user.interests = user2.interests;
+            context.UserData.SetValue("interests", user2.interests);
         }
 
         private async Task ChangeName(IDialogContext context, IAwaitable<object> result)
@@ -1345,7 +1349,8 @@ namespace NetHope.Preferences
             /* Allows a user to change their name
             * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
-            string language = ConversationStarter.user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             string text = activity.Text.Trim();
             switch (text.ToLower())
             {
@@ -1400,10 +1405,9 @@ namespace NetHope.Preferences
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
                     break;
                 default:
-                    var cosmosID = ConversationStarter.user._id;
                     string name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(activity.Text.ToLower());
                     await SaveConversationData.UpdateUserName(name, cosmosID);
-                    ConversationStarter.user.Name = name;
+                    context.UserData.SetValue("Name", name);
                     await context.PostAsync(string.Format(StringResources.ResourceManager.GetString($"{language}_NameUpdated"), name));
                     await context.Forward(new DisplayChangePreferences(), null, activity, CancellationToken.None);
                     break;
@@ -1416,9 +1420,9 @@ namespace NetHope.Preferences
             * Calls DisplayChangePreferences again in case the user wants to amend any other preferences */
             Activity activity = await result as Activity;
             string text = activity.Text.Trim();
-            await ConversationStarter.CheckLanguage(text, ConversationStarter.user._id);
-            string language = ConversationStarter.user.PreferedLang;
-            var cosmosID = ConversationStarter.user._id;
+            await ConversationStarter.CheckLanguage(text, context);
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             UserDataCollection user = UserDataCollection.Find(x => x._id == cosmosID).FirstOrDefault();
             switch (text.ToLower())
             {
@@ -1453,7 +1457,9 @@ namespace NetHope.Preferences
                 default:
                     if (language == StringResources.ar)
                     {
-                        ConversationStarter.user.arabicText = activity.Text;
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfterKill, activity, CancellationToken.None);
@@ -1463,7 +1469,9 @@ namespace NetHope.Preferences
 
         private static async Task ShowData(IDialogContext context, String language)
         {
-            UserDataCollection user = ConversationStarter.user;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
+            UserDataCollection user = UserDataCollection.Find(x => x._id == cosmosID).FirstOrDefault();
+
             string ar = StringResources.ar;
             string subjects = "";
             string interests = "";
@@ -1514,7 +1522,7 @@ namespace NetHope.Preferences
         private static async Task LinkToData(IDialogContext context, string language)
         {
             var message = context.MakeMessage();
-            string url = ConfigurationManager.AppSettings["UserDataURL"] + UserToCrypt(language);
+            string url = ConfigurationManager.AppSettings["UserDataURL"] + UserToCrypt(context, language);
             Debug.WriteLine(url);
             message.Text = StringResources.ResourceManager.GetString($"{language}_DataLink");
             List<CardAction> Actions = new List<CardAction>()
@@ -1531,9 +1539,11 @@ namespace NetHope.Preferences
             await context.PostAsync(message);
         }
         
-        private static string UserToCrypt(string language)
+        private static string UserToCrypt(IDialogContext context, string language)
         {
-            UserDataCollection temp = ConversationStarter.user;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
+            UserDataCollection temp = UserDataCollection.Find(x => x._id == cosmosID).FirstOrDefault();
+            
             string userData = "";
             if (language == StringResources.ar)
             {

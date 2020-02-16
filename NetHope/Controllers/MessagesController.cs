@@ -119,8 +119,10 @@ namespace NetHope.Controllers
         //if the system message isnt a message we handle it here
         private async Task HandleSystemMessage(Activity message)
         {
+            UserDataCollection user = await SaveConversationData.GetUserDataCollection(message.From.Id);
             if (message.Type == ActivityTypes.DeleteUserData) // not implemented
             {
+                await SaveConversationData.DeleteUserData(user._id);
             }
             //handle addition and deletion of contacts here            
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
@@ -131,7 +133,7 @@ namespace NetHope.Controllers
                 {
                     //await SaveConversationData.DeleteConvoData(message.From.Id);
                     //await SaveConversationData.DeleteSavedMessagesData(message.Conversation.Id);
-                    await SaveConversationData.DeleteUserData(ConversationStarter.user._id);
+                    await SaveConversationData.DeleteUserData(user._id);
 
                 }
             }

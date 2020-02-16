@@ -106,7 +106,7 @@ namespace NetHope.Dialogs
         [LuisIntent(Intent_Clarification)]
         public async Task Unclear(IDialogContext context, LuisResult result)
         {
-            language = context.UserData.GetValue<UserDataCollection>("UserObject").PreferedLang;
+            language = context.UserData.GetValue<string>("PreferedLang");
             Activity response = ((Activity)context.Activity).CreateReply(StringResources.ResourceManager.GetString($"{language}_Clarify_input").Replace("{0}", result.Query));
             response.SuggestedActions = new SuggestedActions()
             {
@@ -139,7 +139,7 @@ namespace NetHope.Dialogs
         {
             List<CardAction> childSuggestions = new List<CardAction>();
             var reply = context.MakeMessage();
-            string language = ConversationStarter.user.PreferedLang;
+            language = context.UserData.GetValue<string>("PreferedLang");
             string Yes = StringResources.ResourceManager.GetString($"{language}_Yes");
             string No = StringResources.ResourceManager.GetString($"{language}_No");
             reply.Text = StringResources.ResourceManager.GetString($"{language}_DeleteQuery");
@@ -152,13 +152,12 @@ namespace NetHope.Dialogs
         public async Task ConfirmDelete(IDialogContext context, IAwaitable<object> result)
         {
             Activity activity = await result as Activity;
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            language = user.PreferedLang;
+            language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             if (activity.Text.ToLower() == StringResources.en_Yes.ToLower() || activity.Text == StringResources.ar_Yes)
             {
-                await SaveConversationData.DeleteUserData(user._id);
-                user = new UserDataCollection();
-                context.UserData.SetValue("UserObject", user);
+                await SaveConversationData.DeleteUserData(cosmosID);
+                await ConversationStarter.MapUserToContext(new UserDataCollection(), context);
                 await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DataDeleted"));
                 await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_NewConvo"));
                 await context.Forward(new ConversationStarter(), SendToRoot, context.Activity, CancellationToken.None);
@@ -181,40 +180,36 @@ namespace NetHope.Dialogs
         [LuisIntent(Intent_ChangeLanguage)]
         public async Task ChangeLanguage(IDialogContext context, LuisResult result)
         {
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            var cosmosID = user._id;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
+            UserDataCollection user = UserDataCollection.Find(x => x._id == cosmosID).FirstOrDefault();
             string current_lang = user.PreferedLang.ToLower(); 
             string entity = ExtractEntity(result);
             entity = entity.Trim();
             if (entity.ToLower() == StringResources.en_Arabic.ToLower())
             {
                 await context.PostAsync(StringResources.ar_SpeakArabic);
-                user.PreferedLang = StringResources.ar;
-                context.UserData.SetValue("UserObject", user);
+                context.UserData.SetValue("PreferedLang", StringResources.ar);
                 await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.ar);
                 await context.Forward(new LearningDialog(), ResumeAfterKill, context.Activity, CancellationToken.None);
             }
             else if (entity.ToLower() == StringResources.en_English.ToLower())
             {
                 await context.PostAsync(StringResources.en_SpeakEnglish);
-                user.PreferedLang = StringResources.en;
-                context.UserData.SetValue("UserObject", user);
+                context.UserData.SetValue("PreferedLang", StringResources.en);
                 await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.en);
                 await context.Forward(new LearningDialog(), ResumeAfterKill, context.Activity, CancellationToken.None);
             }
             else if (current_lang.ToLower() == StringResources.en_English.ToLower())
             {
                 await context.PostAsync(StringResources.ar_SpeakArabic);
-                user.PreferedLang = StringResources.ar;
-                context.UserData.SetValue("UserObject", user);
+                context.UserData.SetValue("PreferedLang", StringResources.en);
                 await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.ar);
                 await context.Forward(new LearningDialog(), ResumeAfterKill, context.Activity, CancellationToken.None);
             }
             else if (current_lang.ToLower() == StringResources.en_Arabic.ToLower())
             {
                 await context.PostAsync(StringResources.en_SpeakEnglish);
-                user.PreferedLang = StringResources.en;
-                context.UserData.SetValue("UserObject", user);
+                context.UserData.SetValue("PreferedLang", StringResources.en);
                 await SaveConversationData.UpdateInputLanguage(cosmosID, StringResources.en);
                 await context.Forward(new LearningDialog(), ResumeAfterKill, context.Activity, CancellationToken.None);
             }
@@ -224,7 +219,7 @@ namespace NetHope.Dialogs
         [LuisIntent(Intent_End)]
         public async Task end_conversation(IDialogContext context, LuisResult result)
         {
-            string language = context.UserData.GetValue<UserDataCollection>("UserObject").PreferedLang.ToLower();
+            string language = context.UserData.GetValue<string>("PreferedLang").ToLower();
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_Goodbye"));
             context.Done(true);
         }
@@ -278,9 +273,8 @@ namespace NetHope.Dialogs
         [LuisIntent(Intent_Greeting)]
         public async Task Greeting(IDialogContext context, LuisResult result)
         {
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
-            string userName = user.Name;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            string userName = context.UserData.GetValue<string>("Name");
             if (language == "")
             {
                 await context.Forward(new ConversationStarter(), ResumeAfterKill, context.Activity, CancellationToken.None);
@@ -306,16 +300,12 @@ namespace NetHope.Dialogs
         public async Task Learning(IDialogContext context, LuisResult result)
         {
             string entity = "";
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
-            string gender = user.gender;
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
+            UserDataCollection user = UserDataCollection.Find(x => x._id == cosmosID).FirstOrDefault();
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            string gender = context.UserData.GetValue<string>("gender");
             entity = ExtractLearningEntity(result).ToLower();
-            string engEntity = entity;
-            if (entity != "" && entity != null)
-            {
-                entity = entity;
-            }
-            else
+            if (entity == "" || entity != null)
             {
                 if (result.AlteredQuery != null)
                 {
@@ -362,8 +352,7 @@ namespace NetHope.Dialogs
                     response.Text = String.Format(StringResources.en_ShowSubTopics, Grammar.Capitalise(entity));
                 }
                 await context.PostAsync(response);
-                user.messageStack = new Stack<string>();
-                context.UserData.SetValue("UserObject", user);
+                context.UserData.SetValue("messageStack", new Stack<string>());
                 context.Wait(LearningDialog.FindSubTopic);
             }
             else if (courses_from_direct_sub.Count > 0 || courses_by_name.Count > 0)
@@ -398,7 +387,7 @@ namespace NetHope.Dialogs
                         removed += "\n\n \u2022" + preference;
                     }
                 }
-                context.UserData.SetValue("UserObject", user);
+                await ConversationStarter.MapUserToContext(user, context);
                 await LearningDialog.DisplayCourse(context, language, courses, removed);
                 context.Wait(LearningDialog.FinalCourse);
             }
@@ -425,7 +414,7 @@ namespace NetHope.Dialogs
         /* Method called when there is no entity in learning, or when user enters 'help' */
         public async Task AskForClarification(IDialogContext context)
         {
-            string language = context.UserData.GetValue<UserDataCollection>("UserObject").PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_DidntUnderstand"));
             await context.Forward(new LearningDialog(), ResumeAfterKill, context.Activity, CancellationToken.None);
         }
@@ -443,7 +432,7 @@ namespace NetHope.Dialogs
         [LuisIntent(Intent_Question)]
         public async Task Question(IDialogContext context, LuisResult result)
         {
-            string language = context.UserData.GetValue<UserDataCollection>("UserObject").PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
             string query = "";
             if (result.AlteredQuery != null)
             {

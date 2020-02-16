@@ -35,9 +35,8 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            userLanguage = user.PreferedLang; 
-            
+            userLanguage = context.UserData.GetValue<string>("PreferedLang");
+
             string greetingResponse = StringResources.ResourceManager.GetString($"{userLanguage}_HowAreYouResponse");
             string howAreYou = StringResources.ResourceManager.GetString($"{userLanguage}_HowAreYou");
             
@@ -53,9 +52,8 @@ namespace NetHope.Dialogs
              */
             Activity activity = await result as Activity;
             await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            gender = user.gender;
-            userLanguage = user.PreferedLang; 
+            gender = context.UserData.GetValue<string>("gender");
+            userLanguage = context.UserData.GetValue<string>("PreferedLang");
 
             string endpoint_query = endpoint + activity.Text;
             string sentiment = "";

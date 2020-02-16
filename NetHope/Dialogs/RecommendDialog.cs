@@ -9,6 +9,7 @@ using NetHope.SupportClasses;
 using NetHope.ProactiveMessage;
 using NetHope.Dialogs;
 using NetHope.Resources;
+using MongoDB.Bson;
 
 namespace NetHope.Dialogs
 {
@@ -27,13 +28,15 @@ namespace NetHope.Dialogs
              * If No courses are found given the current preferences 'restrictions' are lifted i.e. pace / accreditation / education level are removed when searching for suitable courses
              */
             Activity activity = await result as Activity;
-            string user_id = activity.From.Id;
-            string language = ConversationStarter.user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            string delivery = context.UserData.GetValue<string>("delivery");
+            string education = context.UserData.GetValue<string>("education");
+            string accreditation = context.UserData.GetValue<string>("accreditation");
+            UserCourse current_course = context.UserData.GetValue<UserCourse>("currentCourse");
 
             List<CourseList> course = new List<CourseList>();
-            UserDataCollection user = ConversationStarter.user;
-            List<string> interest = user.interests;
-            List<UserCourse> past_courses = user.PastCourses;
+            List<string> interest = context.UserData.GetValue<List<string>>("interests");
+            List<UserCourse> past_courses = context.UserData.GetValue<List<UserCourse>>("PastCourses");
 
             if (past_courses.Count > 0)
             {
@@ -43,7 +46,7 @@ namespace NetHope.Dialogs
 
             Random rnd = new Random();
 
-            int restictive = 0;
+            int restrictive = 0;
             List<CourseList> course_current = new List<CourseList>();
             // make sure all interests have a chance to be checked for courses
             // we will cull the list down later at random so it doesn't get too long for the user
@@ -56,13 +59,13 @@ namespace NetHope.Dialogs
                 interest.Insert(0, interest[index]);
                 interest.RemoveAt(index + 1);
 
-                course_current = SaveConversationData.TryMatchCourse(current_interest, user.accreditation, user.delivery, true, user.language, user.education, restictive);
+                course_current = SaveConversationData.TryMatchCourse(current_interest, accreditation, delivery, true, language, education, restrictive);
 
                 course.AddRange(course_current);
 
                 if (i == interest.Count - 1 && course.Count == 0)
                 {
-                    if (restictive == 3)
+                    if (restrictive == 3)
                     {
                         // we've had 3 failed passes, give up without finding any courses
                         // later we should instead recommend the most popular course (collabartive filtering)
@@ -72,12 +75,11 @@ namespace NetHope.Dialogs
                     // first 'pass' has failed to find any courses, start a new 'pass' with less restrictive parameters
                     i = 0;
                     i--;
-                    restictive++;
+                    restrictive++;
                 }
             }
 
-
-            await PresentRecommendation(course, activity, context, restictive);
+            await PresentRecommendation(course, activity, context, restrictive);
 
         }
 
@@ -89,7 +91,7 @@ namespace NetHope.Dialogs
              * Waits for Users action
              */
             courses = ReduceLength(courses);
-            string language = ConversationStarter.user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
             if (courses.Count == 0)
             {
                 await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_RecommendFail"));
@@ -150,8 +152,8 @@ namespace NetHope.Dialogs
             Activity activity = await result as Activity;
             string course = activity.Text;
             await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             if (course.ToLower() == StringResources.en_StartOver.ToLower() || course == StringResources.ar_StartOver)
             {
                 await context.Forward(new LearningDialog(), ResumeAfter, activity, CancellationToken.None);
@@ -165,15 +167,16 @@ namespace NetHope.Dialogs
                 {
                     if (language == StringResources.ar)
                     {
-                        user.arabicText = activity.Text.Trim();
-                        context.UserData.SetValue("UserObject", user);
+                        string arabic = activity.Text.Trim();
+                        await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                        context.UserData.SetValue("arabicText", arabic);
                         activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                     }
                     await context.Forward(new LuisDialog(), ResumeAfter, activity, CancellationToken.None);
                 }
                 else
                 {
-                    string gender = user.gender;
+                    string gender = context.UserData.GetValue<string>("gender");
                     string courseName = language == StringResources.en ? course_by_name.courseName : course_by_name.courseNameArabic;
                     string takeCourse = StringResources.ResourceManager.GetString($"{language}_TakeCourse");
                     string startOver = StringResources.ResourceManager.GetString($"{language}_StartOver");
@@ -229,8 +232,8 @@ namespace NetHope.Dialogs
                     }
                     courseInfo += "\n\n" + StringResources.ResourceManager.GetString($"{language}_CourseDescription");
                     courseInfo += "\n\n" + course_by_name.description;
-                    user.chosenCourse = course_by_name;
-                    context.UserData.SetValue("UserObject", user);
+                    await SaveConversationData.UpdateChosenCourse(cosmosID, course_by_name);
+                    context.UserData.SetValue("chosenCourse", course_by_name);
                     await context.PostAsync(courseInfo);
                     options.SuggestedActions = new SuggestedActions()
                     {
@@ -258,13 +261,13 @@ namespace NetHope.Dialogs
             Activity activity = await result as Activity;
             string choice = activity.Text;
             await ConversationStarter.CheckLanguage(activity.Text.Trim(), context);
-            UserDataCollection user = context.UserData.GetValue<UserDataCollection>("UserObject");
-            string language = user.PreferedLang;
+            string language = context.UserData.GetValue<string>("PreferedLang");
+            BsonObjectId cosmosID = new BsonObjectId(new ObjectId(context.UserData.GetValue<string>("_id")));
             var reply = context.MakeMessage();
             var response = context.MakeMessage();
             if (choice.ToLower() == StringResources.en_TakeCourse.ToLower() || choice == StringResources.ar_TakeCourse)
             {
-                CourseList course = user.chosenCourse;
+                CourseList course = context.UserData.GetValue<CourseList>("chosenCourse");
 
                 UserCourse user_course = new UserCourse()
                 {
@@ -277,9 +280,10 @@ namespace NetHope.Dialogs
                     Rating = 0,
                     Taken = false
                 };
-                user.PastCourses.Add(user_course);
-                context.UserData.SetValue("UserObject", user);
-                await SaveConversationData.SaveUserCourse(user._id, user_course);
+                List<UserCourse> pastCourses = context.UserData.GetValue<List<UserCourse>>("PastCourses");
+                pastCourses.Add(user_course);
+                context.UserData.SetValue("PastCourses", pastCourses);
+                await SaveConversationData.SaveUserCourse(cosmosID, user_course);
                 string courseName = language == StringResources.en ? course.courseName : course.courseNameArabic;
                 string startOver = StringResources.ResourceManager.GetString($"{language}_StartOver");
                 
@@ -310,8 +314,9 @@ namespace NetHope.Dialogs
             {
                 if (language == StringResources.ar)
                 {
-                    user.arabicText = choice;
-                    context.UserData.SetValue("UserObject", user);
+                    string arabic = activity.Text.Trim();
+                    await SaveConversationData.UpdateArabicText(cosmosID, arabic);
+                    context.UserData.SetValue("arabicText", arabic);
                     activity.Text = await Translate.Translator(activity.Text, StringResources.en);
                 }
                 await context.Forward(new LuisDialog(), ResumeAfter, choice, CancellationToken.None);

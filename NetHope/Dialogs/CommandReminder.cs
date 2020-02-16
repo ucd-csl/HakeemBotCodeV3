@@ -32,8 +32,9 @@ namespace NetHope.Dialogs
 
         public static async Task OutputCommands(IDialogContext context)
         {
-            string language = ConversationStarter.user.PreferedLang;
-            string gender = ConversationStarter.user.gender;
+
+            string gender = context.UserData.GetValue<string>("gender");
+            string language = context.UserData.GetValue<string>("PreferedLang");
             await context.PostAsync(StringResources.ResourceManager.GetString($"{language}_CommandList1"));
             string List = "";
             if (language == StringResources.ar)

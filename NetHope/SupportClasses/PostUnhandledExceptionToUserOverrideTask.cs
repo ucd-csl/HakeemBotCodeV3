@@ -32,7 +32,8 @@ namespace NetHope.SupportClasses
 
         public async Task PostAsync(IActivity activity, CancellationToken token)
         {
-            string language = ConversationStarter.user.PreferedLang;
+            UserDataCollection user = await SaveConversationData.GetUserDataCollection(activity.From.Id);
+            string language = user == null ? "" :user.PreferedLang ;
             if(language != StringResources.en && language != StringResources.ar)
             {
                 language = StringResources.en;
